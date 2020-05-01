@@ -39,11 +39,11 @@ public class Users implements Serializable {
     }
 
     @OneToOne
-    @JoinColumn(referencedColumnName = "people_id", insertable = false, updatable = false)
+    @JoinColumn(referencedColumnName = "id", insertable = false, updatable = false)
     private People people;
 
     @ManyToOne
-    @JoinColumn(referencedColumnName = "token_id", insertable = false, updatable = false)
+    @JoinColumn(referencedColumnName = "id", insertable = false, updatable = false)
     private Token token;
 
     public int getId() {

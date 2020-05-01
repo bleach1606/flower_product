@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "flower_products")
-public class FlowerProducts extends Items {
+public class FlowerProducts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,6 +12,45 @@ public class FlowerProducts extends Items {
 
     @Column(nullable = false)
     private Boolean fiActive;
+
+    private String name;
+    private int price;
+    private String description;
+    private String avatar;
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
 
     public FlowerProducts() {
     }
@@ -22,12 +61,6 @@ public class FlowerProducts extends Items {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public FlowerProducts(String name, int price, String description, String avatar, int id, Boolean fiActive) {
-        super(name, price, description, avatar);
-        this.id = id;
-        this.fiActive = fiActive;
     }
 
     public Boolean getFiActive() {

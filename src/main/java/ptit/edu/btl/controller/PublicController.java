@@ -19,6 +19,8 @@ import java.util.UUID;
 public class PublicController extends BaseController {
     @Autowired
     TokenRepository tokenRepository;
+
+    @Autowired
     UsersRepository usersRepository;
 
     @GetMapping("/create-token")
