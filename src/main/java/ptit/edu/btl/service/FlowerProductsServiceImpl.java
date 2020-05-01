@@ -1,37 +1,45 @@
 package ptit.edu.btl.service;
 
 import org.springframework.stereotype.Service;
+import ptit.edu.btl.entity.Category;
 import ptit.edu.btl.entity.FilterForm;
 import ptit.edu.btl.entity.FilterResult;
 import ptit.edu.btl.entity.FlowerProducts;
 import ptit.edu.btl.exception.BTLException;
+import ptit.edu.btl.repository.CategoryRepository;
 import ptit.edu.btl.repository.FlowerProductsRepository;
 
-import java.util.Collections;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class FlowerProductsServiceImpl implements FlowerProductsService {
 
     private final FlowerProductsRepository flowerProductsRepository;
+    private final CategoryRepository categoryRepository;
 
-    public FlowerProductsServiceImpl(FlowerProductsRepository flowerProductsRepository) {
+    public FlowerProductsServiceImpl(FlowerProductsRepository flowerProductsRepository, CategoryRepository categoryRepository) {
         this.flowerProductsRepository = flowerProductsRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
     public FlowerProducts create(FlowerProducts entity) throws BTLException {
+        entity.setFiActive(true);
         if (Objects.nonNull(flowerProductsRepository.findByNameIsLike(entity.getName()))) {
             throw new BTLException("Tên đã tồn tại !!!");
         }
-        return flowerProductsRepository.save(entity);
+        FlowerProducts flowerProducts = flowerProductsRepository.save(entity);
+        Category category = categoryRepository.findByIdAndAndFiActive(entity.getCategoryId(), true);
+        return flowerProducts;
     }
 
     //todo search by key
     @Override
-    public FilterResult findByName(FilterForm filterForm) throws BTLException {
-        return flowerProductsRepository.findByName(filterForm);
+    public List<FlowerProducts> findByName(FilterForm filterForm) throws BTLException {
+        return flowerProductsRepository.findByNameIsLikeOrderByName("%" + filterForm.getKey() + "%");
     }
 
     @Override

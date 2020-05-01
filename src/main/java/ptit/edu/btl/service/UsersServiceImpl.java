@@ -4,29 +4,34 @@ import org.springframework.stereotype.Service;
 import ptit.edu.btl.constant.Constant;
 import ptit.edu.btl.entity.Users;
 import ptit.edu.btl.exception.BTLException;
+import ptit.edu.btl.repository.PeopleRepository;
 import ptit.edu.btl.repository.UsersRepository;
-
-import java.util.Objects;
 
 
 @Service
 public class UsersServiceImpl implements UsersService {
 
     private final UsersRepository usersRepository;
+    private final PeopleRepository peopleRepository;
 
-    public UsersServiceImpl(UsersRepository usersRepository) {
+    public UsersServiceImpl(UsersRepository usersRepository, PeopleRepository peopleRepository) {
         this.usersRepository = usersRepository;
+        this.peopleRepository = peopleRepository;
     }
 
     @Override
     public Users create(Users entity) throws BTLException {
-        if (entity.getRole().isEmpty() || entity.getRole().equals(null)) {
+
+        if (entity.getRole() == null) {
             entity.setRole(Constant.Role.CUSTOMER.getRole());
         }
+        entity.setFiActive(true);
         //todo check tài khoản hợp lý password hợp lệ
-        if (Objects.nonNull(findByUsername(entity.getUsername()))) {
+        Users temp = findByUsername(entity.getUsername());
+        if ( temp != null) {
             throw new BTLException("Tài khoản đã tồn tại !!!");
         }
+        entity.setPeople(peopleRepository.save(entity.getPeople()));
         return usersRepository.save(entity);
     }
 
@@ -43,6 +48,7 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public Users update(Users entity) {
         //todo kiểm tra sửa đổi okk thì mới được update
+        entity.setPeople(peopleRepository.save(entity.getPeople()));
         return usersRepository.save(entity);
     }
 

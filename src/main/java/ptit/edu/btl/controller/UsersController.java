@@ -17,7 +17,7 @@ public class UsersController extends BaseController{
         this.usersService = usersService;
     }
 
-    @PostMapping("create")
+    @PostMapping("/create")
     ResponseEntity<ResponseJson> createUser(@RequestBody Users users) throws Exception {
         try {
             return createSuccessResponse(usersService.create(users), HttpStatus.OK);
@@ -29,7 +29,7 @@ public class UsersController extends BaseController{
         }
     }
 
-    @PutMapping("update")
+    @PutMapping("/update")
     ResponseEntity<ResponseJson> updateUser(@RequestBody Users users) throws Exception {
         try {
             return createSuccessResponse(usersService.update(users), HttpStatus.OK);
@@ -41,7 +41,7 @@ public class UsersController extends BaseController{
         }
     }
 
-    @DeleteMapping("delete")
+    @DeleteMapping("/delete")
     ResponseEntity<ResponseJson> deleteUserById(@RequestParam int id) throws Exception {
         try {
             usersService.delete(id);

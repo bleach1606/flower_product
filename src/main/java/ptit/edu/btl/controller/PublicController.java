@@ -32,8 +32,9 @@ public class PublicController extends BaseController {
         return ResponseEntity.ok(tokenRepository.save(token));
     }
 
-    @PostMapping("login")
+    @PostMapping("/login")
     ResponseEntity<ResponseJson> login(@RequestBody Users users) throws Exception{
+
         try {
             Users user = usersRepository.findByUsernameAndAndPassword(users.getUsername(), users.getPassword());
             Token token = new Token();

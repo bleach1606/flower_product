@@ -57,6 +57,14 @@ public class Category implements Serializable {
     }
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "CATEGORY_ID")
+    @JoinColumn(referencedColumnName = "id", insertable = false, updatable = false)
     private List<FlowerProducts> flowerProductsList;
+
+    public List<FlowerProducts> getFlowerProductsList() {
+        return flowerProductsList;
+    }
+
+    public void setFlowerProductsList(List<FlowerProducts> flowerProductsList) {
+        this.flowerProductsList = flowerProductsList;
+    }
 }

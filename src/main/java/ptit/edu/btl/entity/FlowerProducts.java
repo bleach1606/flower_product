@@ -1,6 +1,8 @@
 package ptit.edu.btl.entity;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "flower_products")
@@ -14,10 +16,26 @@ public class FlowerProducts {
     private Boolean fiActive;
 
     private String name;
+
     private int price;
+
     private String description;
+
     private String avatar;
 
+    @Column(name = "category_id")
+    private int categoryId;
+
+
+
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
 
     public String getName() {
         return name;

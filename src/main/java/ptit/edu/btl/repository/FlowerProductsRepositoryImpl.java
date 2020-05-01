@@ -28,13 +28,14 @@ public class FlowerProductsRepositoryImpl implements FlowerProductsRepositoryCus
         List<Predicate> listPredicate = new ArrayList<>();
         // điều kiện cần
         listPredicate.add(cb.equal(root.get("fiActive"), filter.isFiActive()));
-        if (filter.isValidForLicenseQuery()) {
-            if (!filter.getKey().isEmpty()) {
-                listPredicate.add(root.get("name").in(filter.getKey()));
-            } else {
-                listPredicate.add(cb.disjunction());
-            }
-        }
+        listPredicate.add(cb.like(root.get("name"), filter.getKey()));
+//        if (filter.isValidForLicenseQuery()) {
+//            if (!filter.getKey().isEmpty()) {
+//                listPredicate.add(root.get("name").in(filter.getKey()));
+//            } else {
+//                listPredicate.add(cb.disjunction());
+//            }
+//        }
 
         Path<Object> sortBy = root.get(filter.getSortBy());
         Order order = (filter.getOrder().equals("asc")) ? cb.asc(sortBy) : cb.desc(sortBy);

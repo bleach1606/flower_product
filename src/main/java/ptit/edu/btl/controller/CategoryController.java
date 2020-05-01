@@ -3,26 +3,25 @@ package ptit.edu.btl.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ptit.edu.btl.entity.FilterForm;
-import ptit.edu.btl.entity.FlowerProducts;
-import ptit.edu.btl.entity.Users;
-import ptit.edu.btl.service.FlowerProductsService;
+import ptit.edu.btl.entity.Category;
+import ptit.edu.btl.service.CategoryService;
 import ptit.edu.btl.util.ResponseJson;
 
 @RestController
-@RequestMapping("/flower-products")
-public class FlowerProductsController extends BaseController {
+@RequestMapping("/category")
+public class CategoryController extends BaseController {
 
-    private final FlowerProductsService flowerProductsService;
+    private final CategoryService categoryService;
 
-    public FlowerProductsController(FlowerProductsService flowerProductsService) {
-        this.flowerProductsService = flowerProductsService;
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
+
     @PostMapping("/create")
-    ResponseEntity<ResponseJson> createUser(@RequestBody FlowerProducts flowerProducts) throws Exception {
+    ResponseEntity<ResponseJson> createUser(@RequestBody Category category) throws Exception {
         try {
-            return createSuccessResponse(flowerProductsService.create(flowerProducts), HttpStatus.OK);
+            return createSuccessResponse(categoryService.create(category), HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);
@@ -32,9 +31,9 @@ public class FlowerProductsController extends BaseController {
     }
 
     @PutMapping("/update")
-    ResponseEntity<ResponseJson> updateUser(@RequestBody FlowerProducts flowerProducts) throws Exception {
+    ResponseEntity<ResponseJson> updateUser(@RequestBody Category category) throws Exception {
         try {
-            return createSuccessResponse(flowerProductsService.update(flowerProducts), HttpStatus.OK);
+            return createSuccessResponse(categoryService.update(category), HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);
@@ -46,7 +45,7 @@ public class FlowerProductsController extends BaseController {
     @DeleteMapping("/delete")
     ResponseEntity<ResponseJson> deleteUserById(@RequestParam int id) throws Exception {
         try {
-            flowerProductsService.delete(id);
+            categoryService.delete(id);
             return createSuccessResponse("xoá thành công", HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
@@ -56,10 +55,10 @@ public class FlowerProductsController extends BaseController {
         }
     }
 
-    @PostMapping("find-by-name")
-    ResponseEntity<ResponseJson> findByName(@RequestBody FilterForm filterForm) throws Exception {
+    @GetMapping("/find-all")
+    ResponseEntity<ResponseJson> findAll() throws Exception {
         try {
-            return createSuccessResponse(flowerProductsService.findByName(filterForm), HttpStatus.OK);
+            return createSuccessResponse(categoryService.findALl(), HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);
@@ -67,4 +66,17 @@ public class FlowerProductsController extends BaseController {
             return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(400));
         }
     }
+
+    @GetMapping("/find-by-id")
+    ResponseEntity<ResponseJson> findById(@RequestParam int id) throws Exception {
+        try {
+            return createSuccessResponse(categoryService.findById(id), HttpStatus.OK);
+        } catch (Exception ex) {
+            ResponseJson responseJson = new ResponseJson();
+            responseJson.setSuccess(false);
+            responseJson.setMessage(ex.getMessage());
+            return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(400));
+        }
+    }
+
 }
