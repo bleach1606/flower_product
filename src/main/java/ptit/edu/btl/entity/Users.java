@@ -22,10 +22,8 @@ public class Users implements Serializable {
         this.fiActive = fiActive;
     }
 
-    //    @Column(name = "USERNAME", length = 50)
     private String username;
 
-//    @Column(name = "PASSWORD", length = 50)
     private String password;
 
     private String role;

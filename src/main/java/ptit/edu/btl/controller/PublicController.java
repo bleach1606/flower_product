@@ -16,7 +16,6 @@ import ptit.edu.btl.entity.Users;
 import ptit.edu.btl.repository.TokenRepository;
 import ptit.edu.btl.repository.UsersRepository;
 import ptit.edu.btl.util.ResponseJson;
-import ptit.edu.btl.controller.BaseController;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -46,7 +45,6 @@ public class PublicController extends BaseController {
 
     @PostMapping("/login")
     ResponseEntity<ResponseJson> login(@RequestBody Users users) throws Exception{
-
         try {
             Users user = usersRepository.findByUsernameAndAndPassword(users.getUsername(), users.getPassword());
             Token token = new Token();
