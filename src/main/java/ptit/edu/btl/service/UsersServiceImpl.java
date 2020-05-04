@@ -2,6 +2,7 @@ package ptit.edu.btl.service;
 
 import org.springframework.stereotype.Service;
 import ptit.edu.btl.constant.Constant;
+import ptit.edu.btl.entity.People;
 import ptit.edu.btl.entity.Users;
 import ptit.edu.btl.exception.BTLException;
 import ptit.edu.btl.repository.PeopleRepository;
@@ -42,7 +43,10 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public Users findById(int fiIdHS) {
-        return usersRepository.findById(fiIdHS);
+        Users users = usersRepository.findById(fiIdHS);
+        People people = peopleRepository.findById(1);
+        users.setPeople(people);
+        return users;
     }
 
     @Override

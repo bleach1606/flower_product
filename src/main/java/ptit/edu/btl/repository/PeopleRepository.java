@@ -7,4 +7,5 @@ import ptit.edu.btl.entity.People;
 @Repository
 public interface PeopleRepository extends JpaRepository<People, Integer> {
     void deleteById(int id);
+    People findById(int id);
 }

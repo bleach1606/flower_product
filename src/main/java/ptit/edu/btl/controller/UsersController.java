@@ -16,11 +16,9 @@ public class UsersController extends BaseController{
     @Autowired
     private EmailService emailService;
 
-    private final UsersService usersService;
+    @Autowired
+    private UsersService usersService;
 
-    public UsersController(UsersService usersService) {
-        this.usersService = usersService;
-    }
 
     @PostMapping("/create")
     ResponseEntity<ResponseJson> createUser(@RequestBody Users users) throws Exception {

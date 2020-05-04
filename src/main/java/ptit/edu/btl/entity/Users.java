@@ -28,6 +28,16 @@ public class Users implements Serializable {
 
     private String role;
 
+    private int people_id;
+
+    public int getPeople_id() {
+        return people_id;
+    }
+
+    public void setPeople_id(int people_id) {
+        this.people_id = people_id;
+    }
+
     public String getRole() {
         return role;
     }
@@ -74,6 +84,7 @@ public class Users implements Serializable {
 
     public void setPeople(People people) {
         this.people = people;
+        this.people_id = people.getId();
     }
 
     public Token getToken() {
