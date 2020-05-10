@@ -2,6 +2,7 @@ package ptit.edu.btl.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ptit.edu.btl.entity.Category;
 import ptit.edu.btl.service.CategoryService;
@@ -19,7 +20,7 @@ public class CategoryController extends BaseController {
 
 
     @PostMapping("/create")
-    ResponseEntity<ResponseJson> createUser(@RequestBody Category category) throws Exception {
+    ResponseEntity<ResponseJson> createUser(Authentication authentication, @RequestBody Category category) throws Exception {
         try {
             return createSuccessResponse(categoryService.create(category), HttpStatus.OK);
         } catch (Exception ex) {

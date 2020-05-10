@@ -7,14 +7,18 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ptit.edu.btl.DTO.LoginResponse;
 import ptit.edu.btl.entity.Token;
 import ptit.edu.btl.entity.Users;
+import ptit.edu.btl.jwt.JwtTokenProvider;
 import ptit.edu.btl.repository.TokenRepository;
 import ptit.edu.btl.repository.UsersRepository;
+import ptit.edu.btl.session.CustomUserDetails;
 import ptit.edu.btl.util.ResponseJson;
 
 import java.io.IOException;
@@ -24,6 +28,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/public")
@@ -33,6 +46,12 @@ public class PublicController extends BaseController {
 
     @Autowired
     UsersRepository usersRepository;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenProvider tokenProvider;
 
     @GetMapping("/create-token")
     public ResponseEntity<Token> createToken(){
@@ -46,14 +65,22 @@ public class PublicController extends BaseController {
     @PostMapping("/login")
     ResponseEntity<ResponseJson> login(@RequestBody Users users) throws Exception{
         try {
-            Users user = usersRepository.findByUsernameAndAndPassword(users.getUsername(), users.getPassword());
-            Token token = new Token();
-            token.setToken(UUID.randomUUID().toString());
-            token.setExpiresAt(new Date());
-            tokenRepository.save(token);
-            user.setToken(token);
-            System.out.println(users.toString());
-            return createSuccessResponse(user, HttpStatus.OK);
+            Users user = usersRepository.findByUsername(users.getUsername());
+            // Xác thực từ username và password.
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            users.getUsername(),
+                            users.getPassword()
+                    )
+            );
+
+            // Nếu không xảy ra exception tức là thông tin hợp lệ
+            // Set thông tin authentication vào Security Context
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Trả về jwt cho người dùng.
+            String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
+            return createSuccessResponse(new LoginResponse(jwt, user), HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);

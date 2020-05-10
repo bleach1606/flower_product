@@ -6,7 +6,7 @@ import ptit.edu.btl.entity.Users;
 
 @Repository
 public interface UsersRepository extends JpaRepository<Users, Integer> {
-    Users findByUsernameAndAndPassword(String username, String password);
+    Users findByUsernameAndPassword(String username, String password);
     Users findByUsername(String username);
     Users findById(int id);
 }

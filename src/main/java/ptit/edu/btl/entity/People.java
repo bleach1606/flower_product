@@ -1,11 +1,14 @@
 package ptit.edu.btl.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "people")
+@Data
 public class People implements Serializable {
 
     @Id

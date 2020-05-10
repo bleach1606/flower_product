@@ -3,6 +3,7 @@ package ptit.edu.btl.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ptit.edu.btl.entity.Users;
 import ptit.edu.btl.service.EmailService;
@@ -21,10 +22,12 @@ public class UsersController extends BaseController{
 
 
     @PostMapping("/create")
-    ResponseEntity<ResponseJson> createUser(@RequestBody Users users) throws Exception {
+    ResponseEntity<ResponseJson> createUser(Authentication authentication, @RequestBody Users users) throws Exception {
         try {
-            emailService.sendMail(users.getPeople().getEmail(), "Craete user", "Tạo tài khoản thành công");
-            return createSuccessResponse(usersService.create(users), HttpStatus.OK);
+            System.out.println(authentication.getName());
+//            emailService.sendMail(users.getPeople().getEmail(), "Craete user", "Tạo tài khoản thành công");
+//            return createSuccessResponse(usersService.create(users), HttpStatus.OK);
+            return createSuccessResponse(users, HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);

@@ -87,4 +87,49 @@ public class Constant {
         }
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
+    public enum OrderStatus {
+
+        NEW(1, "Trạng thái giỏ hàng"),
+        WAIT(2, "Chờ xác nhận đặt hàng"),
+        CONFIRM(3, "Xác nhận đặt hàng thành công"),
+        PACKING(4, "Đơn hàng đang được đóng gói"),
+        SHIPPING(5, "Đang hàng đang được giao"),
+        COMPLETED(6, "Đang hàng đã hoàn thành"),
+        RECEIVED(7, "Đã nhận được hàng"),
+        FAILED(8, "Đơn hàng bị huỷ");
+
+        private int id;
+        private String status;
+
+        OrderStatus() {
+        }
+
+        OrderStatus(int id, String status) {
+            this.id = id;
+            this.status = status;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getSex() {
+            return status;
+        }
+
+        public void setSex(String status) {
+            this.status = status;
+        }
+
+        public static Constant.OrderStatus findById(int i) {
+            return Arrays.stream(Constant.OrderStatus.values()).filter(st -> st.getId() == i)
+                    .findFirst().orElse(null);
+        }
+    }
+
 }
