@@ -70,7 +70,7 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
 
     @Override
     public Users findByUsername(String username) {
-        return usersRepository.findByUsername(username);
+        return usersRepository.findByUsername(username).orElse(null);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
     @Override
     public CustomUserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         // Kiểm tra xem user có tồn tại trong database không?
-        Users user = usersRepository.findByUsername(s);
+        Users user = usersRepository.findByUsername(s).orElse(null);
         if (user == null) {
             throw new UsernameNotFoundException(s);
         }
