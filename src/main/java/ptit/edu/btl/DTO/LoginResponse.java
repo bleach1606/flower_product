@@ -6,10 +6,10 @@ import ptit.edu.btl.entity.Users;
 public class LoginResponse {
     private String accessToken;
     private String tokenType = "Bearer";
-    private Users users;
+    private Users user;
 
-    public LoginResponse(String accessToken, Users users) {
+    public LoginResponse(String accessToken, Users user) {
         this.accessToken = accessToken;
-        this.users = users;
+        this.user = user;
     }
 }
