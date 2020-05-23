@@ -24,10 +24,8 @@ public class UsersController extends BaseController{
     @PostMapping("/create")
     ResponseEntity<ResponseJson> createUser(Authentication authentication, @RequestBody Users users) throws Exception {
         try {
-            System.out.println(authentication.getName());
-//            emailService.sendMail(users.getPeople().getEmail(), "Craete user", "Tạo tài khoản thành công");
-//            return createSuccessResponse(usersService.create(users), HttpStatus.OK);
-            return createSuccessResponse(users, HttpStatus.OK);
+            emailService.sendMail(users.getPeople().getEmail(), "Craete user", "Tạo tài khoản thành công");
+            return createSuccessResponse(usersService.create(users), HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);

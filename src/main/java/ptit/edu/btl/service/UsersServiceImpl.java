@@ -40,7 +40,9 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
         if ( temp != null) {
             throw new BTLException("Tài khoản đã tồn tại !!!");
         }
-        entity.setPeople(peopleRepository.save(entity.getPeople()));
+        People people = peopleRepository.save(entity.getPeople());
+        entity.setPeople(people);
+        entity.setPeople_id(people.getId());
         return usersRepository.save(entity);
     }
 

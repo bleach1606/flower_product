@@ -65,7 +65,7 @@ public class PublicController extends BaseController {
     @PostMapping("/login")
     ResponseEntity<ResponseJson> login(@RequestBody Users users) throws Exception{
         try {
-            Users user = usersRepository.findByUsername(users.getUsername());
+            Users user = usersRepository.findByUsername(users.getUsername()).orElse(null);
             // Xác thực từ username và password.
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(

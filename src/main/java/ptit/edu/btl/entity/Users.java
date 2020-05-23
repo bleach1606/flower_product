@@ -37,8 +37,4 @@ public class Users implements Serializable {
     @JoinColumn(referencedColumnName = "id", insertable = false, updatable = false)
     private People people;
 
-    @ManyToOne
-    @JoinColumn(referencedColumnName = "id", insertable = false, updatable = false)
-    private Token token;
-
 }
