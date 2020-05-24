@@ -1,6 +1,7 @@
 package ptit.edu.btl.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +13,8 @@ import ptit.edu.btl.exception.BTLException;
 import ptit.edu.btl.repository.PeopleRepository;
 import ptit.edu.btl.repository.UsersRepository;
 import ptit.edu.btl.session.CustomUserDetails;
+
+import javax.transaction.Transactional;
 
 
 @Service
@@ -54,7 +57,7 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
 
     @Override
     public Users findById(int fiIdHS) {
-        Users users = usersRepository.findById(fiIdHS);
+        Users users = usersRepository.findById(fiIdHS).orElse(null);
         if (peopleRepository.findById(users.getId()) != null) {
             People people = peopleRepository.findById(users.getId());
             users.setPeople(people);
@@ -87,6 +90,15 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(s);
         }
+        return new CustomUserDetails(user);
+    }
+
+    @Transactional
+    public UserDetails loadUserById(int id) {
+        Users user = usersRepository.findById(id).orElseThrow(
+                () -> new UsernameNotFoundException("User not found with id : " + id)
+        );
+
         return new CustomUserDetails(user);
     }
 }
