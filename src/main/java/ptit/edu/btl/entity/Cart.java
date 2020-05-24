@@ -23,4 +23,7 @@ public class Cart {
 
     @Column(name = "flowerproducts_id")
     private int flowerProductsId;
+
+    @ManyToOne
+    private FlowerProducts flowerProduct;
 }

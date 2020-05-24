@@ -2,8 +2,10 @@ package ptit.edu.btl.service;
 
 import org.springframework.stereotype.Service;
 import ptit.edu.btl.constant.Constant;
+import ptit.edu.btl.entity.Cart;
 import ptit.edu.btl.entity.OrderBill;
 import ptit.edu.btl.exception.BTLException;
+import ptit.edu.btl.repository.CartRepository;
 import ptit.edu.btl.repository.OrderBillRepository;
 
 import java.util.List;
@@ -13,9 +15,11 @@ import java.util.Optional;
 public class OrderBillServiceImpl implements OrderBillService {
 
     private final OrderBillRepository orderBillRepository;
+    private final CartRepository cartRepository;
 
-    public OrderBillServiceImpl(OrderBillRepository orderBillRepository) {
+    public OrderBillServiceImpl(OrderBillRepository orderBillRepository, CartRepository cartRepository) {
         this.orderBillRepository = orderBillRepository;
+        this.cartRepository = cartRepository;
     }
 
     @Override
@@ -32,6 +36,13 @@ public class OrderBillServiceImpl implements OrderBillService {
 
     @Override
     public OrderBill update(OrderBill entity) throws BTLException {
+        for (Cart cart : entity.getCartList() ) {
+            cart.setOrderId(entity.getId());
+            if (cart.getNumber() > 0)
+                cartRepository.save(cart);
+            else
+                cartRepository.delete(cart);
+        }
         return orderBillRepository.save(entity);
     }
 
@@ -43,6 +54,11 @@ public class OrderBillServiceImpl implements OrderBillService {
     @Override
     public List<OrderBill> findByUsers_idAndActive(int id, boolean bo) {
         return orderBillRepository.findByUsers_idAndActive(id, bo);
+    }
+
+    @Override
+    public void deleteOrderBill(OrderBill entity) throws BTLException {
+        orderBillRepository.delete(entity);
     }
 
     @Override

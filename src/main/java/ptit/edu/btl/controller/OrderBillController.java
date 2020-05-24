@@ -27,14 +27,15 @@ public class OrderBillController extends BaseController{
     private OrderBillService orderBillService;
 
     @GetMapping("/findOrder/{id}")
-    ResponseEntity<ResponseJson> createUser(@PathVariable int id) throws Exception {
+    ResponseEntity<ResponseJson> createUser(Authentication authentication) throws Exception {
         try {
-            OrderBill orderBill = orderBillService.findFirstByUsers_idAndStatusAndActive(id,
+            Users users = usersService.findByUsername(authentication.getName());
+            OrderBill orderBill = orderBillService.findFirstByUsers_idAndStatusAndActive(users.getId(),
                     Constant.OrderStatus.NEW.getId(), true);
             if (orderBill == null) {
                 orderBill = new OrderBill();
-                orderBill.setUsers_id(id);
-                orderBill.setUsers(usersService.findById(id));
+                orderBill.setUsers_id(users.getId());
+                orderBill.setUsers(users);
                 orderBill = orderBillService.create(orderBill);
             }
             return createSuccessResponse(orderBill, HttpStatus.OK);
@@ -46,12 +47,11 @@ public class OrderBillController extends BaseController{
         }
     }
 
-    @PostMapping("/update-cart")
-    ResponseEntity<ResponseJson> addItem(Authentication authentication) throws Exception {
+    //kịch bản gửi lên orderBill - gồm update trạng thái, thành phần all
+    @PostMapping("/update-orderBill")
+    ResponseEntity<ResponseJson> addItem(@RequestBody OrderBill orderBill) throws Exception {
         try {
-            Users users = usersService.findByUsername(authentication.getName());
-
-            return createErrorResponse(authentication.getName(), HttpStatus.valueOf(200));
+            return createSuccessResponse(orderBillService.update(orderBill), HttpStatus.valueOf(200));
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);
@@ -59,4 +59,6 @@ public class OrderBillController extends BaseController{
             return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(500));
         }
     }
+
+
 }

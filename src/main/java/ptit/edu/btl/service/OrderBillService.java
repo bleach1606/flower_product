@@ -18,6 +18,8 @@ public interface OrderBillService {
 
     List<OrderBill> findByUsers_idAndActive(int id, boolean bo);
 
+    void deleteOrderBill(OrderBill entity) throws  BTLException;
+
     OrderBill findFirstByUsers_idAndStatusAndActive(int id, int status,boolean active);
     void delete(int id) throws BTLException;
 }
