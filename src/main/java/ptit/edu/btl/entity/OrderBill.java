@@ -8,9 +8,9 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "orderbill")
+@Table(name = "order_bill")
 @Data
-public class Order {
+public class OrderBill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -19,13 +19,24 @@ public class Order {
     private Boolean active;
 
     private int status;
-
-    private Date oderDate;
-
+    private Date orderDate;
 
     @OneToOne
+    private Payment payment;
+
+    @ManyToOne
     private Users users;
 
-    @OneToOne
-    private Cart cart;
+    @Transient
+    private Address address;
+
+    @Transient
+    private List<CartDetail> cartDetailList;
+
+    public OrderBill() {
+        cartDetailList = new ArrayList<>();
+    }
+
+
+
 }

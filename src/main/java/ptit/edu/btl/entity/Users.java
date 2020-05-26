@@ -38,6 +38,8 @@ public class Users implements Serializable {
 //    private int people_id;
 
     @OneToOne
+    @JoinColumn(name = "people_id", nullable = false,
+        foreignKey = @ForeignKey(name = "user_people"))
     private People people;
 
 }

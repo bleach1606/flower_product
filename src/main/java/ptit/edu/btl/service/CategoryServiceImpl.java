@@ -29,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService{
     public Category findById(int id) throws BTLException {
         Category category = categoryRepository.findByIdAndAndFiActive(id, true);
 //        category.setFlowerProductsList(flowerProductsRepository.findByCategoryIdOrderByName(id));
-        return category;
+         return category;
     }
 
     @Override

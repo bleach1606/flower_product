@@ -21,8 +21,12 @@ public class Comment {
     private Boolean fiActive;
 
     @ManyToOne
+    @JoinColumn(name = "users_id", nullable = false,
+        foreignKey = @ForeignKey(name = "comment_users"))
     private Users users;
 
     @ManyToOne
+    @JoinColumn(name = "flower_products_id", nullable = false,
+        foreignKey = @ForeignKey(name = "comment_flower_products"))
     private FlowerProducts flowerProducts;
 }

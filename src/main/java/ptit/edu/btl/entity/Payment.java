@@ -20,6 +20,8 @@ public class Payment {
     @Column(nullable = false)
     private Boolean fiActive;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "users_id", nullable = false,
+        foreignKey = @ForeignKey(name = "payment_user"))
     private Users users;
 }

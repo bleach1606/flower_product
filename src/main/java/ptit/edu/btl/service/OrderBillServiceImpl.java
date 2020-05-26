@@ -2,7 +2,7 @@ package ptit.edu.btl.service;
 
 import org.springframework.stereotype.Service;
 import ptit.edu.btl.constant.Constant;
-import ptit.edu.btl.entity.Order;
+import ptit.edu.btl.entity.OrderBill;
 import ptit.edu.btl.exception.BTLException;
 import ptit.edu.btl.repository.CartRepository;
 import ptit.edu.btl.repository.OrderBillRepository;
@@ -22,19 +22,19 @@ public class OrderBillServiceImpl implements OrderBillService {
     }
 
     @Override
-    public Order create(Order entity) throws BTLException {
+    public OrderBill create(OrderBill entity) throws BTLException {
         entity.setActive(true);
         entity.setStatus(Constant.OrderStatus.NEW.getId());
         return orderBillRepository.save(entity);
     }
 
     @Override
-    public Optional<Order> findById(int id) throws BTLException {
+    public Optional<OrderBill> findById(int id) throws BTLException {
         return orderBillRepository.findById(id);
     }
 
     @Override
-    public Order update(Order entity) throws BTLException {
+    public OrderBill update(OrderBill entity) throws BTLException {
 //        for (CartDetail cart : entity.getCartList() ) {
 //            cart.setOrderId(entity.getId());
 //            if (cart.getNumber() > 0)
@@ -46,22 +46,22 @@ public class OrderBillServiceImpl implements OrderBillService {
     }
 
     @Override
-    public List<Order> findALl() throws BTLException {
+    public List<OrderBill> findALl() throws BTLException {
         return orderBillRepository.findAll();
     }
 
     @Override
-    public List<Order> findByUsers_idAndActive(int id, boolean bo) {
+    public List<OrderBill> findByUsers_idAndActive(int id, boolean bo) {
         return orderBillRepository.findByUsers_idAndActive(id, bo);
     }
 
     @Override
-    public void deleteOrderBill(Order entity) throws BTLException {
+    public void deleteOrderBill(OrderBill entity) throws BTLException {
         orderBillRepository.delete(entity);
     }
 
     @Override
-    public Order findFirstByUsers_idAndStatusAndActive(int id, int status, boolean active) {
+    public OrderBill findFirstByUsers_idAndStatusAndActive(int id, int status, boolean active) {
         return orderBillRepository.findFirstByUsers_idAndStatusAndActive(id, status, active).orElse(null);
     }
 

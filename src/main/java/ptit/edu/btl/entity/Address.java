@@ -5,24 +5,20 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "cart_detail")
+@Table(name = "address")
 @Data
-public class CartDetail {
-
+public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(nullable = false)
-    private Boolean active;
-
-    private int number;
-
-    @OneToOne
-    private FlowerProducts flowerProduct;
-
+    private String nation;
+    private String province;
+    private String district;
+    private String town;
+    private String road;
+    private int section;
     @ManyToOne
     @JoinColumn(name = "order_bill_id", nullable = false,
-        foreignKey = @ForeignKey(name = "cart_detail_order_bill"))
+       foreignKey = @ForeignKey(name = "address_order_bill"))
     private OrderBill orderBill;
 }

@@ -26,8 +26,7 @@ public class FlowerProducts {
     private String avatar;
 
     @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false,
+        foreignKey = @ForeignKey(name = "flower_products_category"))
     private Category category;
-//    @OneToMany
-//    @JoinColumn(name = "flower_products_id", unique = false)
-//    private List<Comment> commentList;
 }
