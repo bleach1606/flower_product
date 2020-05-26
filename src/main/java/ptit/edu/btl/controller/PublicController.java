@@ -16,8 +16,11 @@ import ptit.edu.btl.DTO.LoginResponse;
 import ptit.edu.btl.entity.Token;
 import ptit.edu.btl.entity.Users;
 import ptit.edu.btl.jwt.JwtTokenProvider;
+import ptit.edu.btl.repository.PeopleRepository;
 import ptit.edu.btl.repository.TokenRepository;
 import ptit.edu.btl.repository.UsersRepository;
+import ptit.edu.btl.service.UsersService;
+import ptit.edu.btl.service.UsersServiceImpl;
 import ptit.edu.btl.session.CustomUserDetails;
 import ptit.edu.btl.util.ResponseJson;
 
@@ -46,6 +49,9 @@ public class PublicController extends BaseController {
 
     @Autowired
     UsersRepository usersRepository;
+
+    @Autowired
+    UsersService usersService;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -81,6 +87,18 @@ public class PublicController extends BaseController {
             // Trả về jwt cho người dùng.
             String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
             return createSuccessResponse(new LoginResponse(jwt, user), HttpStatus.OK);
+        } catch (Exception ex) {
+            ResponseJson responseJson = new ResponseJson();
+            responseJson.setSuccess(false);
+            responseJson.setMessage(ex.getMessage());
+            return createErrorResponse(ex.getMessage(), HttpStatus.resolve(403));
+        }
+    }
+
+    @PostMapping("/signup")
+    ResponseEntity<ResponseJson> signup(@RequestBody Users users) throws Exception{
+        try {
+            return createSuccessResponse(usersService.create(users), HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);

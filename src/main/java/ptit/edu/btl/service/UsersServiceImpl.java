@@ -45,7 +45,7 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
         }
         People people = peopleRepository.save(entity.getPeople());
         entity.setPeople(people);
-        entity.setPeople_id(people.getId());
+//        entity.setPeople_id(people.getId());
         return usersRepository.save(entity);
     }
 

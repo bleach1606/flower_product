@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -16,6 +17,9 @@ public class Users implements Serializable {
 
     @Column(nullable = false)
     private Boolean fiActive;
+
+    public Users() {
+    }
 
     public Boolean getFiActive() {
         return fiActive;
@@ -31,10 +35,13 @@ public class Users implements Serializable {
 
     private String role;
 
-    private int people_id;
+//    private int people_id;
 
     @OneToOne
-    @JoinColumn(referencedColumnName = "id", insertable = false, updatable = false)
+//    @JoinColumn(columnDefinition = "people_id", referencedColumnName = "id", insertable = false, updatable = false)
     private People people;
+
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    private List<Comment> listComment;
 
 }

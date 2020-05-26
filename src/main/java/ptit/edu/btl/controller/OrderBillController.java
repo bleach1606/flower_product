@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ptit.edu.btl.constant.Constant;
-import ptit.edu.btl.entity.OrderBill;
+import ptit.edu.btl.entity.Order;
 import ptit.edu.btl.entity.Users;
 import ptit.edu.btl.service.EmailService;
 import ptit.edu.btl.service.OrderBillService;
@@ -30,15 +30,15 @@ public class OrderBillController extends BaseController{
     ResponseEntity<ResponseJson> createUser(Authentication authentication) throws Exception {
         try {
             Users users = usersService.findByUsername(authentication.getName());
-            OrderBill orderBill = orderBillService.findFirstByUsers_idAndStatusAndActive(users.getId(),
+            Order order = orderBillService.findFirstByUsers_idAndStatusAndActive(users.getId(),
                     Constant.OrderStatus.NEW.getId(), true);
-            if (orderBill == null) {
-                orderBill = new OrderBill();
-                orderBill.setUsers_id(users.getId());
-                orderBill.setUsers(users);
-                orderBill = orderBillService.create(orderBill);
+            if (order == null) {
+                order = new Order();
+//                orderBill.setUsers_id(users.getId());
+                order.setUsers(users);
+                order = orderBillService.create(order);
             }
-            return createSuccessResponse(orderBill, HttpStatus.OK);
+            return createSuccessResponse(order, HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);
@@ -49,9 +49,9 @@ public class OrderBillController extends BaseController{
 
     //kịch bản gửi lên orderBill - gồm update trạng thái, thành phần all
     @PostMapping("/update-orderBill")
-    ResponseEntity<ResponseJson> addItem(@RequestBody OrderBill orderBill) throws Exception {
+    ResponseEntity<ResponseJson> addItem(@RequestBody Order order) throws Exception {
         try {
-            return createSuccessResponse(orderBillService.update(orderBill), HttpStatus.valueOf(200));
+            return createSuccessResponse(orderBillService.update(order), HttpStatus.valueOf(200));
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);

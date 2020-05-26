@@ -1,7 +1,7 @@
 package ptit.edu.btl.service;
 
 import org.springframework.stereotype.Service;
-import ptit.edu.btl.entity.Cart;
+import ptit.edu.btl.entity.CartDetail;
 import ptit.edu.btl.exception.BTLException;
 import ptit.edu.btl.repository.CartRepository;
 
@@ -18,28 +18,29 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart create(Cart entity) throws BTLException {
+    public CartDetail create(CartDetail entity) throws BTLException {
         return cartRepository.save(entity);
     }
 
     @Override
-    public Optional<Cart> findById(int id) throws BTLException {
+    public Optional<CartDetail> findById(int id) throws BTLException {
         return cartRepository.findById(id);
     }
 
     @Override
-    public Cart update(Cart entity) throws BTLException {
+    public CartDetail update(CartDetail entity) throws BTLException {
         return cartRepository.save(entity);
     }
 
     @Override
-    public List<Cart> findALl() throws BTLException {
+    public List<CartDetail> findALl() throws BTLException {
         return cartRepository.findAll();
     }
 
     @Override
-    public List<Cart> findByOrderId(int id) throws BTLException {
-        return cartRepository.findByOrderId(id);
+    public List<CartDetail> findByOrderId(int id) throws BTLException {
+//        return cartRepository.findByOrderId(id);
+        return null;
     }
 
     @Override

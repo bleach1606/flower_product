@@ -1,21 +1,21 @@
 package ptit.edu.btl.service;
 
-import ptit.edu.btl.entity.Cart;
+import ptit.edu.btl.entity.CartDetail;
 import ptit.edu.btl.exception.BTLException;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CartService {
-    Cart create(Cart entity) throws BTLException;
+    CartDetail create(CartDetail entity) throws BTLException;
 
-    Optional<Cart> findById(int id) throws BTLException;
+    Optional<CartDetail> findById(int id) throws BTLException;
 
-    Cart update(Cart entity) throws BTLException;
+    CartDetail update(CartDetail entity) throws BTLException;
 
-    List<Cart> findALl() throws BTLException;
+    List<CartDetail> findALl() throws BTLException;
 
-    List<Cart> findByOrderId(int id) throws BTLException;
+    List<CartDetail> findByOrderId(int id) throws BTLException;
 
     void delete(int id) throws BTLException;
 }

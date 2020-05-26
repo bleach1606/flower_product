@@ -32,7 +32,7 @@ public class FlowerProductsServiceImpl implements FlowerProductsService {
             throw new BTLException("Tên đã tồn tại !!!");
         }
         FlowerProducts flowerProducts = flowerProductsRepository.save(entity);
-        Category category = categoryRepository.findByIdAndAndFiActive(entity.getCategoryId(), true);
+//        Category category = categoryRepository.findByIdAndAndFiActive(entity.getCategoryId(), true);
         return flowerProducts;
     }
 

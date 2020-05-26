@@ -3,7 +3,6 @@ package ptit.edu.btl.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -26,11 +25,10 @@ public class FlowerProducts {
 
     private String avatar;
 
-    @Column(name = "category_id")
-    private int categoryId;
+    @OneToOne
+    private Category category;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(referencedColumnName = "id", insertable = false, updatable = false)
-    private List<Cart> cartList;
-
+//    @OneToMany
+//    @JoinColumn(name = "flower_products_id", unique = false)
+//    private List<Comment> commentList;
 }
