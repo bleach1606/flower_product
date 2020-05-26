@@ -60,5 +60,5 @@ public class OrderBillController extends BaseController{
         }
     }
 
-    //todo xác nhận đặt hàng - xác nhận vận chuyển - xác nhận lấy hàng thành công
+
 }
