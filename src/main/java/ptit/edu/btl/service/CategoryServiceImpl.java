@@ -28,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public Category findById(int id) throws BTLException {
         Category category = categoryRepository.findByIdAndAndFiActive(id, true);
-        category.setFlowerProductsList(flowerProductsRepository.findByCategoryIdOrderByName(id));
+//        category.setFlowerProductsList(flowerProductsRepository.findByCategoryIdOrderByName(id));
         return category;
     }
 

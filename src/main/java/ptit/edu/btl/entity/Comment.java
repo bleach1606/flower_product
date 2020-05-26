@@ -13,19 +13,16 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String content;
-
+    @Column(nullable = true)
     private int numOfStar;
     private long time;
 
     @Column(nullable = false)
     private Boolean fiActive;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "users_id", nullable = false,
-            foreignKey = @ForeignKey(name = "fk_x"))
+    @ManyToOne
     private Users users;
 
     @ManyToOne
-    @JoinColumn(name = "flower_products_id", nullable = false)
     private FlowerProducts flowerProducts;
 }

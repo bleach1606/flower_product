@@ -38,7 +38,6 @@ public class Users implements Serializable {
 //    private int people_id;
 
     @OneToOne
-    @JoinColumn(columnDefinition = "people_id", referencedColumnName = "id", insertable = false, updatable = false)
     private People people;
 
 }

@@ -25,9 +25,8 @@ public class FlowerProducts {
 
     private String avatar;
 
-    @OneToOne
+    @ManyToOne
     private Category category;
-
 //    @OneToMany
 //    @JoinColumn(name = "flower_products_id", unique = false)
 //    private List<Comment> commentList;

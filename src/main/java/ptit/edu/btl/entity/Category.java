@@ -23,51 +23,5 @@ public class Category implements Serializable {
     @Column(nullable = false)
     private Boolean fiActive;
 
-    public Boolean getFiActive() {
-        return fiActive;
-    }
 
-    public void setFiActive(Boolean fiActive) {
-        this.fiActive = fiActive;
-    }
-
-    public Category() {
-        flowerProductsList = new ArrayList<>();
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(referencedColumnName = "id", insertable = false, updatable = false)
-    private List<FlowerProducts> flowerProductsList;
-
-    public List<FlowerProducts> getFlowerProductsList() {
-        return flowerProductsList;
-    }
-
-    public void setFlowerProductsList(List<FlowerProducts> flowerProductsList) {
-        this.flowerProductsList = flowerProductsList;
-    }
 }
