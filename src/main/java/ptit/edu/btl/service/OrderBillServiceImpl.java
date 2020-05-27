@@ -1,5 +1,6 @@
 package ptit.edu.btl.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ptit.edu.btl.constant.Constant;
 import ptit.edu.btl.entity.Address;
@@ -7,9 +8,12 @@ import ptit.edu.btl.entity.CartDetail;
 import ptit.edu.btl.entity.OrderBill;
 import ptit.edu.btl.entity.Payment;
 import ptit.edu.btl.exception.BTLException;
+import ptit.edu.btl.repository.AddressRepository;
 import ptit.edu.btl.repository.CartDetailRepository;
 import ptit.edu.btl.repository.OrderBillRepository;
+import ptit.edu.btl.repository.PaymentRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +22,10 @@ public class OrderBillServiceImpl implements OrderBillService {
 
     private final OrderBillRepository orderBillRepository;
     private final CartDetailRepository cartDetailRepository;
+    @Autowired
+    AddressRepository repositoryAddress;
+    @Autowired
+    PaymentRepository repositoryPayment;
 
     public OrderBillServiceImpl(OrderBillRepository orderBillRepository, CartDetailRepository cartDetailRepository) {
         this.orderBillRepository = orderBillRepository;
@@ -38,17 +46,20 @@ public class OrderBillServiceImpl implements OrderBillService {
 
     @Override
     public OrderBill update(OrderBill entity) throws BTLException {
-        Address address = entity.getAddress();
-        if(address != null){
-            // address.setFiActivate(true);
-            // address.setOrderBill(entity)
-            // addressReponsitory.save(address);
+        if(entity.getStatus() == Constant.OrderStatus.WAIT.getId()){
+            entity.setOrderDate(new Date());
         }
-        Payment payment = entity.getPayment();
+        Address address = (Address) entity.getAddress();
+        if(address != null){
+             address.setActive(true);
+             repositoryAddress.save(address);
+        }
+        Payment payment = (Payment) entity.getPayment();
         if(payment != null){
-            // payment.setFiActivate(true);
-            // payment.setOrderBill(entity)
-            // paymentReponsitory.save(address);
+            if(payment.getUsers()==null)
+                payment.setUsers(entity.getUsers());
+             payment.setActive(true);
+             repositoryPayment.save(payment);
         }
         List<CartDetail> cartDetailList = entity.getCartDetailList();
         for (CartDetail cartDetail :  cartDetailList) {
@@ -59,6 +70,7 @@ public class OrderBillServiceImpl implements OrderBillService {
 //            else
 //                cartDetailList.remove(cartDetail);
         }
+//        entity.setActive(true);
         return orderBillRepository.save(entity);
     }
 

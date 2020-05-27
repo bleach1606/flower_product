@@ -37,6 +37,7 @@ public class OrderBill {
     private Address address;
 
     @OneToMany
+    @JoinColumn()
     private List<CartDetail> cartDetailList;
 
     public OrderBill() {

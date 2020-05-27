@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ptit.edu.btl.constant.Constant;
 import ptit.edu.btl.entity.OrderBill;
 import ptit.edu.btl.entity.Users;
+import ptit.edu.btl.repository.OrderBillRepository;
 import ptit.edu.btl.service.EmailService;
 import ptit.edu.btl.service.OrderBillService;
 import ptit.edu.btl.service.UsersService;
@@ -26,8 +27,11 @@ public class OrderBillController extends BaseController{
     @Autowired
     private OrderBillService orderBillService;
 
-    @GetMapping("/findOrder")
-    ResponseEntity<ResponseJson> findOrder(@RequestBody Users user) throws Exception {
+    @Autowired
+    private OrderBillRepository orderBillRepository;
+
+    @GetMapping("/get-current-order")
+    ResponseEntity<ResponseJson> findCurrentOrder(@RequestBody Users user) throws Exception {
         try {
             OrderBill orderBill = orderBillService.findFirstByUsers_idAndStatusAndActive(user.getId(),
                     Constant.OrderStatus.NEW.getId(), true);
@@ -37,6 +41,19 @@ public class OrderBillController extends BaseController{
                 orderBill = orderBillService.create(orderBill);
             }
             return createSuccessResponse(orderBill, HttpStatus.OK);
+        } catch (Exception ex) {
+            ResponseJson responseJson = new ResponseJson();
+            responseJson.setSuccess(false);
+            responseJson.setMessage(ex.getMessage());
+            return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(500));
+        }
+    }
+
+    @GetMapping("/get-order-list")
+    ResponseEntity<ResponseJson> findListOrder(@RequestBody Users user) throws Exception {
+        try {
+
+            return createSuccessResponse(orderBillRepository.findByUsers_idAndActive(user.getId(), true), HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);
@@ -57,6 +74,8 @@ public class OrderBillController extends BaseController{
             return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(500));
         }
     }
+
+
 
 
 }
