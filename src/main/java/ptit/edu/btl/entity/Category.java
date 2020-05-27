@@ -21,7 +21,7 @@ public class Category implements Serializable {
     private String avatar;
 
     @Column(nullable = false)
-    private Boolean fiActive;
+    private Boolean active;
 
 
 }

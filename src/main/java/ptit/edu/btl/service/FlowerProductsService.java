@@ -16,4 +16,5 @@ public interface FlowerProductsService {
     FlowerProducts update(FlowerProducts entity) throws BTLException;
 
     void delete(int id) throws BTLException;
+
 }

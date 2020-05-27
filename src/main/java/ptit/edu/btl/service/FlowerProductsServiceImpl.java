@@ -27,7 +27,7 @@ public class FlowerProductsServiceImpl implements FlowerProductsService {
 
     @Override
     public FlowerProducts create(FlowerProducts entity) throws BTLException {
-        entity.setFiActive(true);
+        entity.setActive(true);
         if (Objects.nonNull(flowerProductsRepository.findByNameIsLike(entity.getName()))) {
             throw new BTLException("Tên đã tồn tại !!!");
         }

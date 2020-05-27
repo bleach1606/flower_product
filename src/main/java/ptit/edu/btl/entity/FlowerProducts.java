@@ -15,7 +15,7 @@ public class FlowerProducts {
     private int id;
 
     @Column(nullable = false)
-    private Boolean fiActive;
+    private Boolean active;
 
     private String name;
 

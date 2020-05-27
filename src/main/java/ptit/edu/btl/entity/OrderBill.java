@@ -22,21 +22,24 @@ public class OrderBill {
     private Date orderDate;
 
     @OneToOne
+    @JoinColumn(name = "payment_id", nullable = true,
+    foreignKey = @ForeignKey(name = "pay_bill"))
     private Payment payment;
 
     @ManyToOne
+    @JoinColumn(name = "users_id", nullable = false,
+    foreignKey = @ForeignKey(name = "user_bill"))
     private Users users;
 
-    @Transient
+    @ManyToOne
+    @JoinColumn(name = "address_id", nullable = true,
+    foreignKey = @ForeignKey(name = "order_add"))
     private Address address;
 
-    @Transient
+    @OneToMany
     private List<CartDetail> cartDetailList;
 
     public OrderBill() {
         cartDetailList = new ArrayList<>();
     }
-
-
-
 }

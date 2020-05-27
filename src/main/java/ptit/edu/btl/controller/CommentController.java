@@ -35,7 +35,7 @@ public class CommentController extends BaseController {
     @PostMapping("/create")
     ResponseEntity<ResponseJson> createComment(@RequestBody Comment comment) throws Exception {
         try {
-            comment.setFiActive(true);
+            comment.setActive(true);
             comment.setTime((new Date()).getTime());
             commentRepository.save(comment);
             return createSuccessResponse(null, HttpStatus.OK);

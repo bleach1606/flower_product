@@ -18,7 +18,7 @@ public class Comment {
     private long time;
 
     @Column(nullable = false)
-    private Boolean fiActive;
+    private Boolean active;
 
     @ManyToOne
     @JoinColumn(name = "users_id", nullable = false,

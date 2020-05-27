@@ -6,6 +6,6 @@ import ptit.edu.btl.entity.Category;
 import java.util.List;
 
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
-    Category findByIdAndAndFiActive(int id, boolean ac);
-    List<Category> findByFiActiveOrderByName(boolean ac);
+    Category findByIdAndAndActive(int id, boolean ac);
+    List<Category> findByActiveOrderByName(boolean ac);
 }

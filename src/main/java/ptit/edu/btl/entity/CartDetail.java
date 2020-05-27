@@ -19,10 +19,17 @@ public class CartDetail {
     private int number;
 
     @OneToOne
+    @JoinColumn(name = "flower_products_id", nullable = false,
+        foreignKey = @ForeignKey(name = "cart_detail_fp"))
     private FlowerProducts flowerProduct;
 
-    @ManyToOne
+//    @Column(nullable = false)
+//    @JoinColumn(name = "order_bill_id", referencedColumnName = "id", table = "order_bill",
+//    foreignKey = @ForeignKey(name = "__"))
+//    @JoinColumn()
+
     @JoinColumn(name = "order_bill_id", nullable = false,
-        foreignKey = @ForeignKey(name = "cart_detail_order_bill"))
-    private OrderBill orderBill;
+            referencedColumnName = "id", table = "order_bill",
+            foreignKey = @ForeignKey(name = "___"))
+    private int orderBillId;
 }

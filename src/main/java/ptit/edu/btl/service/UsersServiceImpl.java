@@ -37,13 +37,13 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
         if (entity.getRole() == null) {
             entity.setRole(Constant.Role.CUSTOMER.getRole());
         }
-        entity.setFiActive(true);
+        entity.setActive(true);
         //todo check tài khoản hợp lý password hợp lệ
         Users temp = findByUsername(entity.getUsername());
         if ( temp != null) {
             throw new BTLException("Tài khoản đã tồn tại !!!");
         }
-        entity.getPeople().setFiActive(true);
+        entity.getPeople().setActive(true);
         People people = peopleRepository.save(entity.getPeople());
         entity.setPeople(people);
 //        entity.setPeople_id(people.getId());

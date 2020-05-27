@@ -44,7 +44,7 @@ public class CategoryController extends BaseController {
     }
 
     @DeleteMapping("/delete")
-    ResponseEntity<ResponseJson> deleteUserById(@RequestParam int id) throws Exception {
+    ResponseEntity<ResponseJson> deleteCategoryById(@RequestParam int id) throws Exception {
         try {
             categoryService.delete(id);
             return createSuccessResponse("xoá thành công", HttpStatus.OK);

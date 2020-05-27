@@ -21,13 +21,13 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public Category create(Category entity) throws BTLException {
-        entity.setFiActive(true);
+        entity.setActive(true);
         return categoryRepository.save(entity);
     }
 
     @Override
     public Category findById(int id) throws BTLException {
-        Category category = categoryRepository.findByIdAndAndFiActive(id, true);
+        Category category = categoryRepository.findByIdAndAndActive(id, true);
 //        category.setFlowerProductsList(flowerProductsRepository.findByCategoryIdOrderByName(id));
          return category;
     }
@@ -39,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public List<Category> findALl() throws BTLException {
-        return categoryRepository.findByFiActiveOrderByName(true);
+        return categoryRepository.findByActiveOrderByName(true);
     }
 
     @Override

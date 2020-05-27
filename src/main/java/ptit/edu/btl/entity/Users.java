@@ -16,17 +16,9 @@ public class Users implements Serializable {
     private int id;
 
     @Column(nullable = false)
-    private Boolean fiActive;
+    private Boolean active;
 
     public Users() {
-    }
-
-    public Boolean getFiActive() {
-        return fiActive;
-    }
-
-    public void setFiActive(Boolean fiActive) {
-        this.fiActive = fiActive;
     }
 
     private String username;

@@ -26,16 +26,14 @@ public class OrderBillController extends BaseController{
     @Autowired
     private OrderBillService orderBillService;
 
-    @GetMapping("/findOrder/{id}")
-    ResponseEntity<ResponseJson> createUser(Authentication authentication) throws Exception {
+    @GetMapping("/findOrder")
+    ResponseEntity<ResponseJson> findOrder(@RequestBody Users user) throws Exception {
         try {
-            Users users = usersService.findByUsername(authentication.getName());
-            OrderBill orderBill = orderBillService.findFirstByUsers_idAndStatusAndActive(users.getId(),
+            OrderBill orderBill = orderBillService.findFirstByUsers_idAndStatusAndActive(user.getId(),
                     Constant.OrderStatus.NEW.getId(), true);
             if (orderBill == null) {
                 orderBill = new OrderBill();
-//                orderBill.setUsers_id(users.getId());
-                orderBill.setUsers(users);
+                orderBill.setUsers(user);
                 orderBill = orderBillService.create(orderBill);
             }
             return createSuccessResponse(orderBill, HttpStatus.OK);

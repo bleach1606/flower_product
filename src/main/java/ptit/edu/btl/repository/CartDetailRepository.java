@@ -5,6 +5,6 @@ import ptit.edu.btl.entity.CartDetail;
 
 import java.util.List;
 
-public interface CartRepository extends JpaRepository<CartDetail, Integer> {
-//    List<CartDetail> findByOrderId(int OrderId);
+public interface CartDetailRepository extends JpaRepository<CartDetail, Integer> {
+//    List<CartDetail> findByOrderBillId(int OrderId);
 }

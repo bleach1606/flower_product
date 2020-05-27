@@ -18,7 +18,7 @@ public class Payment {
     private String kind;
 
     @Column(nullable = false)
-    private Boolean fiActive;
+    private Boolean active;
 
     @ManyToOne
     @JoinColumn(name = "users_id", nullable = false,

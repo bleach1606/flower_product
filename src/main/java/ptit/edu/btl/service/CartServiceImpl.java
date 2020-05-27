@@ -3,7 +3,7 @@ package ptit.edu.btl.service;
 import org.springframework.stereotype.Service;
 import ptit.edu.btl.entity.CartDetail;
 import ptit.edu.btl.exception.BTLException;
-import ptit.edu.btl.repository.CartRepository;
+import ptit.edu.btl.repository.CartDetailRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,30 +11,30 @@ import java.util.Optional;
 @Service
 public class CartServiceImpl implements CartService {
 
-    private final CartRepository cartRepository;
+    private final CartDetailRepository cartDetailRepository;
 
-    public CartServiceImpl(CartRepository cartRepository) {
-        this.cartRepository = cartRepository;
+    public CartServiceImpl(CartDetailRepository cartDetailRepository) {
+        this.cartDetailRepository = cartDetailRepository;
     }
 
     @Override
     public CartDetail create(CartDetail entity) throws BTLException {
-        return cartRepository.save(entity);
+        return cartDetailRepository.save(entity);
     }
 
     @Override
     public Optional<CartDetail> findById(int id) throws BTLException {
-        return cartRepository.findById(id);
+        return cartDetailRepository.findById(id);
     }
 
     @Override
     public CartDetail update(CartDetail entity) throws BTLException {
-        return cartRepository.save(entity);
+        return cartDetailRepository.save(entity);
     }
 
     @Override
     public List<CartDetail> findALl() throws BTLException {
-        return cartRepository.findAll();
+        return cartDetailRepository.findAll();
     }
 
     @Override
@@ -45,6 +45,6 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void delete(int id) throws BTLException {
-        cartRepository.deleteById(id);
+        cartDetailRepository.deleteById(id);
     }
 }

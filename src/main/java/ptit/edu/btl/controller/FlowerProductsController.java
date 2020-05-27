@@ -1,11 +1,14 @@
 package ptit.edu.btl.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ptit.edu.btl.entity.Category;
 import ptit.edu.btl.entity.FilterForm;
 import ptit.edu.btl.entity.FlowerProducts;
 import ptit.edu.btl.entity.Users;
+import ptit.edu.btl.repository.FlowerProductsRepository;
 import ptit.edu.btl.service.FlowerProductsService;
 import ptit.edu.btl.util.ResponseJson;
 
@@ -14,6 +17,8 @@ import ptit.edu.btl.util.ResponseJson;
 public class FlowerProductsController extends BaseController {
 
     private final FlowerProductsService flowerProductsService;
+    @Autowired
+    private FlowerProductsRepository productsRepository;
 
     public FlowerProductsController(FlowerProductsService flowerProductsService) {
         this.flowerProductsService = flowerProductsService;
@@ -60,6 +65,18 @@ public class FlowerProductsController extends BaseController {
     ResponseEntity<ResponseJson> findByName(@RequestBody FilterForm filterForm) throws Exception {
         try {
             return createSuccessResponse(flowerProductsService.findByName(filterForm), HttpStatus.OK);
+        } catch (Exception ex) {
+            ResponseJson responseJson = new ResponseJson();
+            responseJson.setSuccess(false);
+            responseJson.setMessage(ex.getMessage());
+            return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(400));
+        }
+    }
+
+    @PostMapping("find-by-category")
+    ResponseEntity<ResponseJson> findByCategory(@RequestBody Category entity) throws Exception {
+        try {
+            return createSuccessResponse(productsRepository.findByCategoryIdOrderByName(entity.getId()), HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);

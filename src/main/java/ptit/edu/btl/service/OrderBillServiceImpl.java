@@ -2,9 +2,12 @@ package ptit.edu.btl.service;
 
 import org.springframework.stereotype.Service;
 import ptit.edu.btl.constant.Constant;
+import ptit.edu.btl.entity.Address;
+import ptit.edu.btl.entity.CartDetail;
 import ptit.edu.btl.entity.OrderBill;
+import ptit.edu.btl.entity.Payment;
 import ptit.edu.btl.exception.BTLException;
-import ptit.edu.btl.repository.CartRepository;
+import ptit.edu.btl.repository.CartDetailRepository;
 import ptit.edu.btl.repository.OrderBillRepository;
 
 import java.util.List;
@@ -14,11 +17,11 @@ import java.util.Optional;
 public class OrderBillServiceImpl implements OrderBillService {
 
     private final OrderBillRepository orderBillRepository;
-    private final CartRepository cartRepository;
+    private final CartDetailRepository cartDetailRepository;
 
-    public OrderBillServiceImpl(OrderBillRepository orderBillRepository, CartRepository cartRepository) {
+    public OrderBillServiceImpl(OrderBillRepository orderBillRepository, CartDetailRepository cartDetailRepository) {
         this.orderBillRepository = orderBillRepository;
-        this.cartRepository = cartRepository;
+        this.cartDetailRepository = cartDetailRepository;
     }
 
     @Override
@@ -35,13 +38,27 @@ public class OrderBillServiceImpl implements OrderBillService {
 
     @Override
     public OrderBill update(OrderBill entity) throws BTLException {
-//        for (CartDetail cart : entity.getCartList() ) {
-//            cart.setOrderId(entity.getId());
-//            if (cart.getNumber() > 0)
-//                cartRepository.save(cart);
+        Address address = entity.getAddress();
+        if(address != null){
+            // address.setFiActivate(true);
+            // address.setOrderBill(entity)
+            // addressReponsitory.save(address);
+        }
+        Payment payment = entity.getPayment();
+        if(payment != null){
+            // payment.setFiActivate(true);
+            // payment.setOrderBill(entity)
+            // paymentReponsitory.save(address);
+        }
+        List<CartDetail> cartDetailList = entity.getCartDetailList();
+        for (CartDetail cartDetail :  cartDetailList) {
+            cartDetail.setActive(true);
+//            cartDetail.setOrderBillId(entity.getId());
+            if (cartDetail.getNumber() > 0)
+                cartDetailRepository.save(cartDetail);
 //            else
-//                cartRepository.delete(cart);
-//        }
+//                cartDetailList.remove(cartDetail);
+        }
         return orderBillRepository.save(entity);
     }
 

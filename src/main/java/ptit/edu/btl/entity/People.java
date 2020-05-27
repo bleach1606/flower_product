@@ -16,7 +16,7 @@ public class People implements Serializable {
     private int id;
 
     @Column(nullable = false)
-    private Boolean fiActive;
+    private Boolean active;
 
     private String firstName;
     private String lastName;
