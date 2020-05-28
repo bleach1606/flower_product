@@ -23,11 +23,6 @@ public class CartDetail {
         foreignKey = @ForeignKey(name = "cart_detail_fp"))
     private FlowerProducts flowerProduct;
 
-//    @Column(nullable = false)
-//    @JoinColumn(name = "order_bill_id", referencedColumnName = "id", table = "order_bill",
-//    foreignKey = @ForeignKey(name = "__"))
-//    @JoinColumn()
-
     @JoinColumn(name = "order_bill_id", nullable = false,
             referencedColumnName = "id", table = "order_bill",
             foreignKey = @ForeignKey(name = "___"))

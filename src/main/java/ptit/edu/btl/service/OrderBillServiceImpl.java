@@ -67,10 +67,9 @@ public class OrderBillServiceImpl implements OrderBillService {
 //            cartDetail.setOrderBillId(entity.getId());
             if (cartDetail.getNumber() > 0)
                 cartDetailRepository.save(cartDetail);
-//            else
-//                cartDetailList.remove(cartDetail);
+            else
+                cartDetailList.remove(cartDetail);
         }
-//        entity.setActive(true);
         return orderBillRepository.save(entity);
     }
 

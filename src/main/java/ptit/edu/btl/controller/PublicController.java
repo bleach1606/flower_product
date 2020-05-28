@@ -44,8 +44,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/public")
 public class PublicController extends BaseController {
-    @Autowired
-    TokenRepository tokenRepository;
+//    @Autowired
+//    TokenRepository tokenRepository;
 
     @Autowired
     UsersRepository usersRepository;
