@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ptit.edu.btl.DTO.LoginResponse;
-import ptit.edu.btl.entity.Token;
 import ptit.edu.btl.entity.Users;
 import ptit.edu.btl.jwt.JwtTokenProvider;
-import ptit.edu.btl.repository.TokenRepository;
 import ptit.edu.btl.repository.UsersRepository;
 import ptit.edu.btl.service.UsersService;
 import ptit.edu.btl.session.CustomUserDetails;
@@ -41,8 +39,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/public")
 public class PublicController extends BaseController {
-//    @Autowired
-//    TokenRepository tokenRepository;
 
     @Autowired
     UsersRepository usersRepository;
@@ -55,15 +51,6 @@ public class PublicController extends BaseController {
 
     @Autowired
     private JwtTokenProvider tokenProvider;
-
-    @GetMapping("/create-token")
-    public ResponseEntity<Token> createToken(){
-        Token token = new Token();
-        token.setToken(UUID.randomUUID().toString());
-        token.setExpiresAt(new Date());
-
-        return ResponseEntity.ok(tokenRepository.save(token));
-    }
 
     @PostMapping("/login")
     ResponseEntity<ResponseJson> login(@RequestBody Users users) throws Exception{

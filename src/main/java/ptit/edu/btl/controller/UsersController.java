@@ -12,7 +12,7 @@ import ptit.edu.btl.util.ResponseJson;
 
 @RestController
 @RequestMapping("/users")
-public class UsersController extends BaseController{
+public class UsersController extends BaseController {
 
     @Autowired
     private EmailService emailService;
@@ -58,4 +58,19 @@ public class UsersController extends BaseController{
             return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(400));
         }
     }
+
+    @PostMapping("/update-fcm")
+    ResponseEntity<ResponseJson> updateFCM(Authentication authentication, @RequestParam String token) throws Exception {
+        try {
+            Users users = usersService.findByUsername(authentication.getName());
+            users.setTokenFCM(token);
+            return createSuccessResponse(usersService.update(users), HttpStatus.OK);
+        } catch (Exception ex) {
+            ResponseJson responseJson = new ResponseJson();
+            responseJson.setSuccess(false);
+            responseJson.setMessage(ex.getMessage());
+            return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(400));
+        }
+    }
+
 }

@@ -27,6 +27,8 @@ public class Users implements Serializable {
 
     private String role;
 
+    private String tokenFCM;
+
 
     @OneToOne
     @JoinColumn(name = "people_id", nullable = false,
