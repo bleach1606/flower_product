@@ -25,7 +25,7 @@ public class FlowerProductsController extends BaseController {
     }
 
     @PostMapping("/create")
-    ResponseEntity<ResponseJson> createUser(@RequestBody FlowerProducts flowerProducts) throws Exception {
+    ResponseEntity<ResponseJson> createFlowerProducts(@RequestBody FlowerProducts flowerProducts) throws Exception {
         try {
             return createSuccessResponse(flowerProductsService.create(flowerProducts), HttpStatus.OK);
         } catch (Exception ex) {
@@ -37,7 +37,7 @@ public class FlowerProductsController extends BaseController {
     }
 
     @PutMapping("/update")
-    ResponseEntity<ResponseJson> updateUser(@RequestBody FlowerProducts flowerProducts) throws Exception {
+    ResponseEntity<ResponseJson> updateFlowerProducts(@RequestBody FlowerProducts flowerProducts) throws Exception {
         try {
             return createSuccessResponse(flowerProductsService.update(flowerProducts), HttpStatus.OK);
         } catch (Exception ex) {
@@ -49,7 +49,7 @@ public class FlowerProductsController extends BaseController {
     }
 
     @DeleteMapping("/delete")
-    ResponseEntity<ResponseJson> deleteUserById(@RequestParam int id) throws Exception {
+    ResponseEntity<ResponseJson> deleteFlowerProductsById(@RequestParam int id) throws Exception {
         try {
             flowerProductsService.delete(id);
             return createSuccessResponse("xoá thành công", HttpStatus.OK);

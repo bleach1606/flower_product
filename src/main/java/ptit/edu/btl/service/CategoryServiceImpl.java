@@ -1,11 +1,15 @@
 package ptit.edu.btl.service;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import ptit.edu.btl.DTO.CategoryDTO;
 import ptit.edu.btl.entity.Category;
+import ptit.edu.btl.entity.FlowerProducts;
 import ptit.edu.btl.exception.BTLException;
 import ptit.edu.btl.repository.CategoryRepository;
 import ptit.edu.btl.repository.FlowerProductsRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,10 +30,12 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public Category findById(int id) throws BTLException {
+    public CategoryDTO findById(int id) throws BTLException {
         Category category = categoryRepository.findByIdAndAndActive(id, true);
-//        category.setFlowerProductsList(flowerProductsRepository.findByCategoryIdOrderByName(id));
-         return category;
+        List<FlowerProducts> flowerProductsList =
+                flowerProductsRepository.findByCategoryIdOrderByName(category.getId());
+        CategoryDTO dto = new CategoryDTO(category, flowerProductsList);
+         return dto;
     }
 
     @Override
@@ -38,8 +44,14 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public List<Category> findALl() throws BTLException {
-        return categoryRepository.findByActiveOrderByName(true);
+    public List<CategoryDTO> findALl() throws BTLException {
+        List<Category> categoryList = categoryRepository.findByActiveOrderByName(true);
+        List<CategoryDTO> listDTO = new ArrayList<>();
+        for (Category x : categoryList) {
+            listDTO.add(new CategoryDTO(x,
+                    flowerProductsRepository.findByCategoryIdOrderByName(x.getId())));
+        }
+        return listDTO;
     }
 
     @Override
