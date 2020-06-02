@@ -26,13 +26,14 @@ public class FCMInitializer {
 
     @PostConstruct
     public void initialize() {
-        log.info("Start init");
         try {
 
             Resource resource = resourceLoader.getResource("classpath:gg.json");
 
             FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(resource.getInputStream())).build();
+                    .setCredentials(GoogleCredentials.fromStream(resource.getInputStream()))
+//                    .setDatabaseUrl("https://flowerproduct-dd318.firebaseio.com")
+                    .build();
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
                 System.out.println("Firebase application has been initialized");
@@ -41,7 +42,6 @@ public class FCMInitializer {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            log.error(e.getMessage());
         }
     }
 }
