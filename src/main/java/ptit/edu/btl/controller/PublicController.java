@@ -104,6 +104,7 @@ public class PublicController extends BaseController {
                 .path("/public/download/")
                 .path(fileName)
                 .toUriString();
+//        String link = "http://192.168.1.18:8080/public/download/" + fileName;
         return ResponseEntity.ok(fileDownloadUri);
     }
 

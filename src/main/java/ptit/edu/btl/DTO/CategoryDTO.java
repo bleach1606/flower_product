@@ -20,6 +20,7 @@ public class CategoryDTO {
     private List<FlowerProducts> flowerProductsList;
 
     public CategoryDTO(Category category, List<FlowerProducts> flowerProductsList) {
+        this.id = category.getId();
         this.name = category.getName();
         this.avatar = category.getAvatar();
         this.active = category.getActive();
