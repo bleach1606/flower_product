@@ -23,4 +23,6 @@ public class Category implements Serializable {
     @Column(nullable = false)
     private Boolean active;
 
+    private int type;
+
 }

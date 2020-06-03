@@ -31,8 +31,9 @@ public class OrderBillController extends BaseController{
     private OrderBillRepository orderBillRepository;
 
     @GetMapping("/get-current-order")
-    ResponseEntity<ResponseJson> findCurrentOrder(@RequestBody Users user) throws Exception {
+    ResponseEntity<ResponseJson> findCurrentOrder(Authentication authentication) throws Exception {
         try {
+            Users user = usersService.findByUsername(authentication.getName());
             OrderBill orderBill = orderBillService.findFirstByUsers_idAndStatusAndActive(user.getId(),
                     Constant.OrderStatus.NEW.getId(), true);
             if (orderBill == null) {
@@ -45,20 +46,20 @@ public class OrderBillController extends BaseController{
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);
             responseJson.setMessage(ex.getMessage());
-            return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(500));
+            return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(400));
         }
     }
 
     @GetMapping("/get-order-list")
-    ResponseEntity<ResponseJson> findListOrder(@RequestBody Users user) throws Exception {
+    ResponseEntity<ResponseJson> findListOrder(Authentication authentication) throws Exception {
         try {
-
+            Users user = usersService.findByUsername(authentication.getName());
             return createSuccessResponse(orderBillRepository.findByUsers_idAndActive(user.getId(), true), HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);
             responseJson.setMessage(ex.getMessage());
-            return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(500));
+            return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(400));
         }
     }
 
@@ -71,11 +72,7 @@ public class OrderBillController extends BaseController{
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);
             responseJson.setMessage(ex.getMessage());
-            return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(500));
+            return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(400));
         }
     }
-
-
-
-
 }
