@@ -29,4 +29,7 @@ public class FlowerProducts {
     @JoinColumn(name = "category_id", nullable = false,
         foreignKey = @ForeignKey(name = "flower_products_category"))
     private Category category;
+
+    public FlowerProducts() {
+    }
 }
