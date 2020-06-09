@@ -11,7 +11,7 @@ public interface FlowerProductsService {
 
     FlowerProducts create(FlowerProducts entity) throws BTLException;
 
-    List<FlowerProducts> findByName(FilterForm filterForm) throws BTLException;
+    List<FlowerProducts> findByName(String key) throws BTLException;
 
     FlowerProducts update(FlowerProducts entity) throws BTLException;
 

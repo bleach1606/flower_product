@@ -38,8 +38,8 @@ public class FlowerProductsServiceImpl implements FlowerProductsService {
 
     //todo search by key
     @Override
-    public List<FlowerProducts> findByName(FilterForm filterForm) throws BTLException {
-        return flowerProductsRepository.findByNameIsLikeOrderByName("%" + filterForm.getKey() + "%");
+    public List<FlowerProducts> findByName(String key) throws BTLException {
+        return flowerProductsRepository.findByNameIsLikeOrderByName("%" + key + "%");
     }
 
     @Override

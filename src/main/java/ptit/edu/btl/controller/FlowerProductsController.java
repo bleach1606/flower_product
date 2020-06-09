@@ -1,6 +1,7 @@
 package ptit.edu.btl.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -61,10 +62,10 @@ public class FlowerProductsController extends BaseController {
         }
     }
 
-    @PostMapping("find-by-name")
-    ResponseEntity<ResponseJson> findByName(@RequestBody FilterForm filterForm) throws Exception {
+    @GetMapping("find-by-name")
+    ResponseEntity<ResponseJson> findByName(@RequestParam(value = "key") String key) throws Exception {
         try {
-            return createSuccessResponse(flowerProductsService.findByName(filterForm), HttpStatus.OK);
+            return createSuccessResponse(flowerProductsService.findByName(key), HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);

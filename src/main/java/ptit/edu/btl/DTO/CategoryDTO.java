@@ -17,6 +17,8 @@ public class CategoryDTO {
 
     private Boolean active;
 
+    private int type;
+
     private List<FlowerProducts> flowerProductsList;
 
     public CategoryDTO(Category category, List<FlowerProducts> flowerProductsList) {
@@ -25,5 +27,6 @@ public class CategoryDTO {
         this.avatar = category.getAvatar();
         this.active = category.getActive();
         this.flowerProductsList = flowerProductsList;
+        this.type = category.getType();
     }
 }
