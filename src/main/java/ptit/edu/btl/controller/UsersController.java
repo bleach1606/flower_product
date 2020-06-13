@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ptit.edu.btl.entity.Users;
 import ptit.edu.btl.service.EmailService;
+import ptit.edu.btl.service.NotificationService;
 import ptit.edu.btl.service.UsersService;
 import ptit.edu.btl.util.ResponseJson;
 
@@ -20,9 +21,11 @@ public class UsersController extends BaseController {
     @Autowired
     private UsersService usersService;
 
+    @Autowired
+    private NotificationService notificationService;
 
     @PostMapping("/create")
-    ResponseEntity<ResponseJson> createUser(Authentication authentication, @RequestBody Users users) throws Exception {
+    ResponseEntity<ResponseJson> createUser(@RequestBody Users users) throws Exception {
         try {
             emailService.sendMail(users.getPeople().getEmail(), "Craete user", "Tạo tài khoản thành công");
             return createSuccessResponse(usersService.create(users), HttpStatus.OK);
@@ -72,5 +75,6 @@ public class UsersController extends BaseController {
             return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(400));
         }
     }
+
 
 }

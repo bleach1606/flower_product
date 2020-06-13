@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ptit.edu.btl.DTO.LoginResponse;
+import ptit.edu.btl.entity.Notification;
 import ptit.edu.btl.entity.Users;
 import ptit.edu.btl.jwt.JwtTokenProvider;
 import ptit.edu.btl.repository.UsersRepository;
+import ptit.edu.btl.service.NotificationService;
 import ptit.edu.btl.service.UsersService;
 import ptit.edu.btl.session.CustomUserDetails;
 import ptit.edu.btl.util.ResponseJson;
@@ -52,17 +54,20 @@ public class PublicController extends BaseController {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @PostMapping("/login")
     ResponseEntity<ResponseJson> login(@RequestBody Users users) throws Exception{
         try {
-            Users user = usersRepository.findByUsername(users.getUsername()).orElse(null);
-            // Xác thực từ username và password.
+                        // Xác thực từ username và password.
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             users.getUsername(),
                             users.getPassword()
                     )
             );
+            Users user = usersRepository.findByUsername(users.getUsername()).orElse(null);
 
             // Nếu không xảy ra exception tức là thông tin hợp lệ
             // Set thông tin authentication vào Security Context
@@ -82,7 +87,14 @@ public class PublicController extends BaseController {
     @PostMapping("/signup")
     ResponseEntity<ResponseJson> signup(@RequestBody Users users) throws Exception{
         try {
-            return createSuccessResponse(usersService.create(users), HttpStatus.OK);
+            users = usersService.create(users);
+            Notification notification = new Notification();
+            notification.setContent("Chào mừng đến với CAMELIA !!!");
+            notification.setDate(new Date());
+            notification.setTitle("Thông báo.");
+            notification.setUsers(users);
+            notificationService.create(notification);
+            return createSuccessResponse(users, HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);
