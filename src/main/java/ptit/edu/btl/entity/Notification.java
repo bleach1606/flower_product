@@ -20,6 +20,8 @@ public class Notification {
 
     private Date date;
 
+    private String avatar;
+
     private boolean isCheck;
 
     @ManyToOne

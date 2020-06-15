@@ -93,6 +93,7 @@ public class PublicController extends BaseController {
             notification.setDate(new Date());
             notification.setTitle("Thông báo.");
             notification.setUsers(users);
+            notification.setAvatar("1");
             notificationService.create(notification);
             return createSuccessResponse(users, HttpStatus.OK);
         } catch (Exception ex) {

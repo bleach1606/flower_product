@@ -13,8 +13,11 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private double money;
+
     private Time timeOfTransaction;
+
     private String kind;
 
     @Column(nullable = false)

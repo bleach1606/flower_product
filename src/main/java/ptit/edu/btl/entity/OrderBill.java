@@ -1,5 +1,7 @@
 package ptit.edu.btl.entity;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -19,7 +21,14 @@ public class OrderBill {
     private Boolean active;
 
     private int status;
+
     private Date orderDate;
+
+    private String receiverName;
+
+    private String receiverTel;
+
+    private String receiverAddress;
 
     @OneToOne
     @JoinColumn(name = "payment_id", nullable = true,
