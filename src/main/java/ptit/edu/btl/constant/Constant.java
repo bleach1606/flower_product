@@ -94,8 +94,8 @@ public class Constant {
         WAIT(2, "Chờ xác nhận đặt hàng"),
         CONFIRM(3, "Xác nhận đặt hàng thành công"),
         PACKING(4, "Đơn hàng đang được đóng gói"),
-        SHIPPING(5, "Đang hàng đang được giao"),
-        COMPLETED(6, "Đang hàng đã hoàn thành"),
+        SHIPPING(5, "Đơn hàng đang được giao"),
+        COMPLETED(6, "Đơn hàng đã hoàn thành"),
         RECEIVED(7, "Đã nhận được hàng"),
         FAILED(8, "Đơn hàng bị huỷ");
 
@@ -118,11 +118,11 @@ public class Constant {
             this.id = id;
         }
 
-        public String getSex() {
+        public String getStatus() {
             return status;
         }
 
-        public void setSex(String status) {
+        public void setStatus(String status) {
             this.status = status;
         }
 

@@ -6,10 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import ptit.edu.btl.constant.Constant;
+import ptit.edu.btl.entity.Notification;
 import ptit.edu.btl.entity.OrderBill;
 import ptit.edu.btl.entity.Users;
 import ptit.edu.btl.repository.OrderBillRepository;
 import ptit.edu.btl.service.EmailService;
+import ptit.edu.btl.service.NotificationService;
 import ptit.edu.btl.service.OrderBillService;
 import ptit.edu.btl.service.UsersService;
 import ptit.edu.btl.util.ResponseJson;
@@ -28,7 +30,7 @@ public class OrderBillController extends BaseController{
     private OrderBillService orderBillService;
 
     @Autowired
-    private OrderBillRepository orderBillRepository;
+    private NotificationService notificationService;
 
     @GetMapping("/get-current-order")
     ResponseEntity<ResponseJson> findCurrentOrder(Authentication authentication) throws Exception {
@@ -54,7 +56,7 @@ public class OrderBillController extends BaseController{
     ResponseEntity<ResponseJson> findListOrder(Authentication authentication) throws Exception {
         try {
             Users user = usersService.findByUsername(authentication.getName());
-            return createSuccessResponse(orderBillRepository.findByUsers_idAndActive(user.getId(), true), HttpStatus.OK);
+            return createSuccessResponse(orderBillService.findByUsers_idAndActive(user.getId(), true), HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);
@@ -65,8 +67,11 @@ public class OrderBillController extends BaseController{
 
     //kịch bản gửi lên orderBill - gồm update trạng thái, thành phần all
     @PostMapping("/update-orderBill")
-    ResponseEntity<ResponseJson> addItem(@RequestBody OrderBill orderBill) throws Exception {
+    ResponseEntity<ResponseJson> updateOrderBill(Authentication authentication, @RequestBody OrderBill orderBill) throws Exception {
         try {
+            Users user = usersService.findByUsername(authentication.getName());
+            System.out.println(user);
+            orderBill.setUsers(user);
             return createSuccessResponse(orderBillService.update(orderBill), HttpStatus.valueOf(200));
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
@@ -75,4 +80,20 @@ public class OrderBillController extends BaseController{
             return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(400));
         }
     }
+
+    @PutMapping("update-status/{id}")
+    ResponseEntity<ResponseJson> updateStatus(Authentication authentication,
+          @PathVariable("id") int id, @RequestParam int status) throws Exception {
+        try {
+            OrderBill orderBill = orderBillService.findById(id);
+            orderBill.setStatus(status);
+            return createSuccessResponse( orderBillService.update(orderBill), HttpStatus.OK);
+        } catch (Exception ex) {
+            ResponseJson responseJson = new ResponseJson();
+            responseJson.setSuccess(false);
+            responseJson.setMessage(ex.getMessage());
+            return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(400));
+        }
+    }
+
 }

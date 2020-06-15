@@ -2,11 +2,9 @@ package ptit.edu.btl.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ptit.edu.btl.DTO.PnsRequest;
 import ptit.edu.btl.constant.Constant;
-import ptit.edu.btl.entity.Address;
-import ptit.edu.btl.entity.CartDetail;
-import ptit.edu.btl.entity.OrderBill;
-import ptit.edu.btl.entity.Payment;
+import ptit.edu.btl.entity.*;
 import ptit.edu.btl.exception.BTLException;
 import ptit.edu.btl.repository.AddressRepository;
 import ptit.edu.btl.repository.CartDetailRepository;
@@ -15,7 +13,7 @@ import ptit.edu.btl.repository.PaymentRepository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class OrderBillServiceImpl implements OrderBillService {
@@ -25,8 +23,18 @@ public class OrderBillServiceImpl implements OrderBillService {
 
     @Autowired
     AddressRepository repositoryAddress;
+
     @Autowired
     PaymentRepository repositoryPayment;
+
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private FCMService fcmService;
 
     public OrderBillServiceImpl(OrderBillRepository orderBillRepository, CartDetailRepository cartDetailRepository) {
         this.orderBillRepository = orderBillRepository;
@@ -41,13 +49,15 @@ public class OrderBillServiceImpl implements OrderBillService {
     }
 
     @Override
-    public Optional<OrderBill> findById(int id) throws BTLException {
-        return orderBillRepository.findById(id);
+    public OrderBill findById(int id) throws BTLException {
+        return orderBillRepository.findById(id).orElse(null);
     }
 
     @Override
     public OrderBill update(OrderBill entity) throws BTLException {
-        if(entity.getStatus() == Constant.OrderStatus.WAIT.getId()){
+        if (entity.getId() < 1) {
+            entity.setActive(true);
+            entity.setStatus(Constant.OrderStatus.WAIT.getId());
             entity.setOrderDate(new Date());
         }
         Address address = (Address) entity.getAddress();
@@ -62,15 +72,30 @@ public class OrderBillServiceImpl implements OrderBillService {
              payment.setActive(true);
              repositoryPayment.save(payment);
         }
+
+        orderBillRepository.save(entity);
+
         List<CartDetail> cartDetailList = entity.getCartDetailList();
         for (CartDetail cartDetail :  cartDetailList) {
             cartDetail.setActive(true);
-//            cartDetail.setOrderBillId(entity.getId());
-            if (cartDetail.getNumber() > 0)
+            if (cartDetail.getNumber() > 0) {
+                if ( entity.getId() > 0)
+                cartDetail.setOrderBillId(entity.getId());
                 cartDetailRepository.save(cartDetail);
+            }
             else
                 cartDetailList.remove(cartDetail);
         }
+
+
+//        if (entity.getStatus() == Constant.OrderStatus.CONFIRM.getId()) {
+//            emailService.sendMail(
+//                    entity.getUsers().getPeople().getEmail(),
+//                    "Thông báo: ",
+//                    "Bạn đặt hàng thành công, gói hàng đã được giao đến vận chuyển.");
+//        }
+        seenNotification(entity.getStatus(), entity.getUsers());
+        seenFCM(entity.getStatus(), entity.getUsers());
         return orderBillRepository.save(entity);
     }
 
@@ -97,5 +122,25 @@ public class OrderBillServiceImpl implements OrderBillService {
     @Override
     public void delete(int id) throws BTLException {
         orderBillRepository.deleteById(id);
+    }
+
+    public void seenFCM(int status, Users users) {
+        fcmService.pushNotification(new PnsRequest(
+                users.getTokenFCM(), "CAMELIA thông báo:", Constant.OrderStatus.findById(status).getStatus()));
+    }
+
+    public void seenNotification(int status, Users users) {
+        try {
+            Notification notification = new Notification();
+            notification.setContent(Constant.OrderStatus.findById(status).getStatus());
+            notification.setDate(new Date());
+            notification.setTitle("Thông báo.");
+            notification.setUsers(users);
+            Random rd = new Random();
+            notification.setAvatar(String.valueOf(rd.nextInt(114)  + 1));
+            notificationService.create(notification);
+        } catch (BTLException e) {
+            e.printStackTrace();
+        }
     }
 }
