@@ -70,9 +70,14 @@ public class OrderBillController extends BaseController{
     ResponseEntity<ResponseJson> updateOrderBill(Authentication authentication, @RequestBody OrderBill orderBill) throws Exception {
         try {
             Users user = usersService.findByUsername(authentication.getName());
-            System.out.println(user);
             orderBill.setUsers(user);
-            return createSuccessResponse(orderBillService.update(orderBill), HttpStatus.valueOf(200));
+            orderBill = orderBillService.update(orderBill);
+            if (orderBill.getStatus() == Constant.OrderStatus.WAIT.getId()) {
+                orderBill = new OrderBill();
+                orderBill.setUsers(user);
+                orderBill = orderBillService.create(orderBill);
+            }
+            return createSuccessResponse(orderBill, HttpStatus.valueOf(200));
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);

@@ -72,9 +72,6 @@ public class OrderBillServiceImpl implements OrderBillService {
              payment.setActive(true);
              repositoryPayment.save(payment);
         }
-
-        orderBillRepository.save(entity);
-
         List<CartDetail> cartDetailList = entity.getCartDetailList();
         for (CartDetail cartDetail :  cartDetailList) {
             cartDetail.setActive(true);
@@ -125,11 +122,15 @@ public class OrderBillServiceImpl implements OrderBillService {
     }
 
     public void seenFCM(int status, Users users) {
+        if (users == null || users.getTokenFCM() == null) {
+            return;
+        }
         fcmService.pushNotification(new PnsRequest(
                 users.getTokenFCM(), "CAMELIA thông báo:", Constant.OrderStatus.findById(status).getStatus()));
     }
 
     public void seenNotification(int status, Users users) {
+
         try {
             Notification notification = new Notification();
             notification.setContent(Constant.OrderStatus.findById(status).getStatus());

@@ -19,6 +19,7 @@ public class People implements Serializable {
     private Boolean active;
 
     private String firstName;
+
     private String lastName;
 
     private String address;

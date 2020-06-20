@@ -21,6 +21,10 @@ public class Users implements Serializable {
     public Users() {
     }
 
+    private int type;
+
+    private String accessToken;
+
     private String username;
 
     private String password;

@@ -132,4 +132,30 @@ public class Constant {
         }
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
+    public enum TypeUser {
+        NORMAL(1, "Người dùng thường"),
+        FACEBOOK(2, "Người dùng Facebook"),
+        GOOGLE(3, "Người dùng google");
+
+        private int id;
+        private String type;
+
+        TypeUser() {
+        }
+
+        TypeUser(int id, String type) {
+            this.id = id;
+            this.type = type;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+    }
+
 }

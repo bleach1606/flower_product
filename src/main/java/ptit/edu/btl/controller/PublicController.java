@@ -1,5 +1,8 @@
 package ptit.edu.btl.controller;
 
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.types.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -13,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ptit.edu.btl.DTO.LoginResponse;
 import ptit.edu.btl.entity.Notification;
+import ptit.edu.btl.entity.People;
 import ptit.edu.btl.entity.Users;
+import ptit.edu.btl.exception.BTLException;
 import ptit.edu.btl.jwt.JwtTokenProvider;
 import ptit.edu.btl.repository.UsersRepository;
 import ptit.edu.btl.service.NotificationService;
@@ -68,6 +73,41 @@ public class PublicController extends BaseController {
                     )
             );
             Users user = usersRepository.findByUsername(users.getUsername()).orElse(null);
+
+            // Nếu không xảy ra exception tức là thông tin hợp lệ
+            // Set thông tin authentication vào Security Context
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Trả về jwt cho người dùng.
+            String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
+            return createSuccessResponse(new LoginResponse(jwt, user), HttpStatus.OK);
+        } catch (Exception ex) {
+            ResponseJson responseJson = new ResponseJson();
+            responseJson.setSuccess(false);
+            responseJson.setMessage(ex.getMessage());
+            return createErrorResponse(ex.getMessage(), HttpStatus.resolve(403));
+        }
+    }
+
+    @PostMapping("/login-access")
+    ResponseEntity<ResponseJson> loginFace(@RequestBody Users users) throws Exception{
+        try {
+            String url = "https://graph.facebook.com";
+            String asscessToken = users.getAccessToken();
+            FacebookClient client = new DefaultFacebookClient(asscessToken);
+            User userFace = client.fetchObject("me", User.class);
+
+            Users user = usersService.findByUsername(users.getUsername() + "_facebook");
+            if ( user == null)  {
+                user = createUser(users, userFace);
+            }
+            // Xác thực từ username và password.
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            user.getUsername(),
+                            ""
+                    )
+            );
 
             // Nếu không xảy ra exception tức là thông tin hợp lệ
             // Set thông tin authentication vào Security Context
@@ -146,5 +186,25 @@ public class PublicController extends BaseController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""
                         + resource.getFilename() + "\"")
                 .body(resource);
+    }
+
+    public Users createUser(Users users , User userFace) {
+        try {
+            users.setUsername(String.valueOf(new Date().getTime()) + "_facebook");
+            users.setPassword("");
+            People people = new People();
+            people.setAddress(userFace.getHometownName());
+            people.setActive(true);
+            people.setAvatar("1");
+            people.setBirthday(userFace.getBirthdayAsDate());
+            people.setFirstName(userFace.getFirstName());
+            people.setLastName(userFace.getLastName());
+            people.setEmail(userFace.getEmail());
+            users.setPeople(people);
+            return usersService.create(users);
+        } catch (BTLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
