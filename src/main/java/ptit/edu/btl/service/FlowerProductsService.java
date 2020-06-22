@@ -17,4 +17,6 @@ public interface FlowerProductsService {
 
     void delete(int id) throws BTLException;
 
+    FlowerProducts findByIdAndActive(int id, boolean status) throws BTLException;
+
 }

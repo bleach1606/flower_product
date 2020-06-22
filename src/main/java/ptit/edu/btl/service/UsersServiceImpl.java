@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ptit.edu.btl.constant.Constant;
+import ptit.edu.btl.entity.OrderBill;
 import ptit.edu.btl.entity.People;
 import ptit.edu.btl.entity.Users;
 import ptit.edu.btl.exception.BTLException;
@@ -92,6 +93,11 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
             throw new UsernameNotFoundException(s);
         }
         return new CustomUserDetails(user);
+    }
+
+    @Override
+    public Users findByIdAndActive(int id, boolean bo) {
+        return usersRepository.findById(id).orElse(null);
     }
 
     @Transactional

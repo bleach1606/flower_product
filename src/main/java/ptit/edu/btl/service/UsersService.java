@@ -19,4 +19,6 @@ public interface UsersService {
     void delete(int id) throws BTLException;
 
     UserDetails loadUserByUsername(String s) throws UsernameNotFoundException;
+
+    Users findByIdAndActive(int id, boolean bo);
 }

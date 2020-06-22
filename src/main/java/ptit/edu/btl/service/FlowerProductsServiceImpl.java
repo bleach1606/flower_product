@@ -51,4 +51,9 @@ public class FlowerProductsServiceImpl implements FlowerProductsService {
     public void delete(int id) throws BTLException {
         flowerProductsRepository.deleteById(id);
     }
+
+    @Override
+    public FlowerProducts findByIdAndActive(int id, boolean bo) throws BTLException {
+        return flowerProductsRepository.findByIdAndActive(id, bo).orElse(null);
+    }
 }

@@ -16,6 +16,9 @@ import ptit.edu.btl.service.OrderBillService;
 import ptit.edu.btl.service.UsersService;
 import ptit.edu.btl.util.ResponseJson;
 
+import java.util.List;
+
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/orderbill")
 public class OrderBillController extends BaseController{
@@ -101,4 +104,16 @@ public class OrderBillController extends BaseController{
         }
     }
 
+    @GetMapping()
+    ResponseEntity<ResponseJson> listOrderBill(@RequestParam int status) throws Exception {
+        try {
+            List<OrderBill> orderBillList = orderBillService.findByStatusAndActive(status, true);
+            return createSuccessResponse( orderBillList, HttpStatus.OK);
+        } catch (Exception ex) {
+            ResponseJson responseJson = new ResponseJson();
+            responseJson.setSuccess(false);
+            responseJson.setMessage(ex.getMessage());
+            return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(400));
+        }
+    }
 }

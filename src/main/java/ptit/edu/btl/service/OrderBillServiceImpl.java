@@ -117,6 +117,11 @@ public class OrderBillServiceImpl implements OrderBillService {
     }
 
     @Override
+    public List<OrderBill> findByStatusAndActive(int id, boolean bo) throws BTLException {
+        return orderBillRepository.findByStatusAndActive(id, bo);
+    }
+
+    @Override
     public void delete(int id) throws BTLException {
         orderBillRepository.deleteById(id);
     }

@@ -21,6 +21,7 @@ public interface OrderBillService {
 
     OrderBill findFirstByUsers_idAndStatusAndActive(int id, int status, boolean active);
 
+    List<OrderBill> findByStatusAndActive(int id, boolean bo) throws BTLException;
 
     void delete(int id) throws BTLException;
 }
