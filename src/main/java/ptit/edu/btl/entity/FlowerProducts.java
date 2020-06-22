@@ -1,40 +1,35 @@
 package ptit.edu.btl.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "flower_products")
-public class FlowerProducts extends Items {
+@Data
+public class FlowerProducts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false)
-    private Boolean fiActive;
+    private Boolean active;
+
+    private String name;
+
+    private int price;
+
+    private String description;
+
+    private String avatar;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false,
+        foreignKey = @ForeignKey(name = "flower_products_category"))
+    private Category category;
 
     public FlowerProducts() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public FlowerProducts(String name, int price, String description, String avatar, int id, Boolean fiActive) {
-        super(name, price, description, avatar);
-        this.id = id;
-        this.fiActive = fiActive;
-    }
-
-    public Boolean getFiActive() {
-        return fiActive;
-    }
-
-    public void setFiActive(Boolean fiActive) {
-        this.fiActive = fiActive;
     }
 }

@@ -1,5 +1,7 @@
 package ptit.edu.btl.service;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ptit.edu.btl.entity.Users;
 import ptit.edu.btl.exception.BTLException;
 
@@ -15,4 +17,8 @@ public interface UsersService {
     Users findByUsername(String username) throws BTLException;
 
     void delete(int id) throws BTLException;
+
+    UserDetails loadUserByUsername(String s) throws UsernameNotFoundException;
+
+    Users findByIdAndActive(int id, boolean bo);
 }

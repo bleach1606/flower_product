@@ -2,8 +2,10 @@ package ptit.edu.btl.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import ptit.edu.btl.util.ResponseJson;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class BaseController {
     public ResponseEntity<ResponseJson> createResponse(Object obj, boolean isSuccess,
                                                        String errorMessage, HttpStatus httpStatus) {

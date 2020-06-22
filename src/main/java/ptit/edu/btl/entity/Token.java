@@ -1,11 +1,13 @@
 package ptit.edu.btl.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Data
 public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,22 +16,6 @@ public class Token {
     private String token;
 
     private Date expiresAt;
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public Date getExpiresAt() {
-        return expiresAt;
-    }
-
-    public void setExpiresAt(Date expiresAt) {
-        this.expiresAt = expiresAt;
-    }
 
     @Transient
     @JsonIgnore

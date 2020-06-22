@@ -87,4 +87,75 @@ public class Constant {
         }
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
+    public enum OrderStatus {
+
+        NEW(1, "Trạng thái giỏ hàng"),
+        WAIT(2, "Chờ xác nhận đặt hàng"),
+        CONFIRM(3, "Xác nhận đặt hàng thành công"),
+        PACKING(4, "Đơn hàng đang được đóng gói"),
+        SHIPPING(5, "Đơn hàng đang được giao"),
+        COMPLETED(6, "Đơn hàng đã hoàn thành"),
+        RECEIVED(7, "Đã nhận được hàng"),
+        FAILED(8, "Đơn hàng bị huỷ");
+
+        private int id;
+        private String status;
+
+        OrderStatus() {
+        }
+
+        OrderStatus(int id, String status) {
+            this.id = id;
+            this.status = status;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public static Constant.OrderStatus findById(int i) {
+            return Arrays.stream(Constant.OrderStatus.values()).filter(st -> st.getId() == i)
+                    .findFirst().orElse(null);
+        }
+    }
+
+    @JsonFormat(shape = JsonFormat.Shape.OBJECT)
+    public enum TypeUser {
+        NORMAL(1, "Người dùng thường"),
+        FACEBOOK(2, "Người dùng Facebook"),
+        GOOGLE(3, "Người dùng google");
+
+        private int id;
+        private String type;
+
+        TypeUser() {
+        }
+
+        TypeUser(int id, String type) {
+            this.id = id;
+            this.type = type;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+    }
+
 }

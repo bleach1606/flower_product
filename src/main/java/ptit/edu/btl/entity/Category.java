@@ -1,5 +1,7 @@
 package ptit.edu.btl.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "category")
+@Data
 public class Category implements Serializable {
 
     @Id
@@ -18,45 +21,8 @@ public class Category implements Serializable {
     private String avatar;
 
     @Column(nullable = false)
-    private Boolean fiActive;
+    private Boolean active;
 
-    public Boolean getFiActive() {
-        return fiActive;
-    }
+    private int type;
 
-    public void setFiActive(Boolean fiActive) {
-        this.fiActive = fiActive;
-    }
-
-    public Category() {
-        flowerProductsList = new ArrayList<>();
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "CATEGORY_ID")
-    private List<FlowerProducts> flowerProductsList;
 }

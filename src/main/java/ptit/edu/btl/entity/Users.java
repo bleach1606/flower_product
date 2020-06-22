@@ -1,10 +1,14 @@
 package ptit.edu.btl.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Data
 public class Users implements Serializable {
 
     @Id
@@ -12,88 +16,27 @@ public class Users implements Serializable {
     private int id;
 
     @Column(nullable = false)
-    private Boolean fiActive;
+    private Boolean active;
 
-    public Boolean getFiActive() {
-        return fiActive;
+    public Users() {
     }
 
-    public void setFiActive(Boolean fiActive) {
-        this.fiActive = fiActive;
-    }
+    private int type;
 
-    //    @Column(name = "USERNAME", length = 50)
+    private String accessToken;
+
     private String username;
 
-//    @Column(name = "PASSWORD", length = 50)
     private String password;
 
     private String role;
 
-    public String getRole() {
-        return role;
-    }
+    private String tokenFCM;
 
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     @OneToOne
-    @JoinColumn(referencedColumnName = "people_id", insertable = false, updatable = false)
+    @JoinColumn(name = "people_id", nullable = false,
+        foreignKey = @ForeignKey(name = "user_people"))
     private People people;
 
-    @ManyToOne
-    @JoinColumn(referencedColumnName = "token_id", insertable = false, updatable = false)
-    private Token token;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public People getPeople() {
-        return people;
-    }
-
-    public void setPeople(People people) {
-        this.people = people;
-    }
-
-    public Token getToken() {
-        return token;
-    }
-
-    public void setToken(Token token) {
-        this.token = token;
-    }
-
-    @Override
-    public String toString() {
-        return "Users{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", people=" + people +
-                ", token=" + token +
-                '}';
-    }
 }
