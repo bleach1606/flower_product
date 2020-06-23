@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
-        return null;
+        return bearerToken;
     }
 
     @Override
@@ -56,7 +56,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (Exception ex) {
             log.error("failed on set user authentication", ex);
         }
-
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 }

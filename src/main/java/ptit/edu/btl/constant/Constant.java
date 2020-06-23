@@ -95,8 +95,8 @@ public class Constant {
         CONFIRM(3, "Xác nhận đặt hàng thành công"),
         PACKING(4, "Đơn hàng đang được đóng gói"),
         SHIPPING(5, "Đơn hàng đang được giao"),
-        COMPLETED(6, "Đơn hàng đã hoàn thành"),
-        RECEIVED(7, "Đã nhận được hàng"),
+        RECEIVED(6, "Đơn hàng đã hoàn thành"),
+        CANCEL(7, "Hủy đơn hàng"),
         FAILED(8, "Đơn hàng bị huỷ");
 
         private int id;

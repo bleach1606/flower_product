@@ -116,4 +116,17 @@ public class OrderBillController extends BaseController{
             return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(400));
         }
     }
+
+
+    @GetMapping("{id}")
+    ResponseEntity<ResponseJson> findByID(@PathVariable("id") int id) throws Exception {
+        try {
+            return createSuccessResponse( orderBillService.findById(id), HttpStatus.OK);
+        } catch (Exception ex) {
+            ResponseJson responseJson = new ResponseJson();
+            responseJson.setSuccess(false);
+            responseJson.setMessage(ex.getMessage());
+            return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(400));
+        }
+    }
 }
