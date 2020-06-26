@@ -97,7 +97,10 @@ public class Constant {
         SHIPPING(5, "Đơn hàng đang được giao"),
         RECEIVED(6, "Đơn hàng đã hoàn thành"),
         CANCEL(7, "Hủy đơn hàng"),
-        FAILED(8, "Đơn hàng bị huỷ");
+        FAILED(8, "Đơn hàng bị huỷ"),
+        END(9, "END GAME !!!"),
+        DONE(10, "Hoàn thành");
+
 
         private int id;
         private String status;

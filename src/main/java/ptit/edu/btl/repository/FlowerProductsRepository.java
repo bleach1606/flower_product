@@ -12,6 +12,6 @@ public interface FlowerProductsRepository extends JpaRepository<FlowerProducts, 
     List<FlowerProducts> findByNameIsLikeOrderByName(String name);
     FlowerProducts findByNameIsLike(String name);
     void deleteById(int id);
-    List<FlowerProducts> findByCategoryIdOrderByName(int id);
+    List<FlowerProducts> findByCategoryIdAndActiveOrderByName(int id, boolean bo);
     Optional<FlowerProducts> findByIdAndActive(int id, boolean bo);
 }

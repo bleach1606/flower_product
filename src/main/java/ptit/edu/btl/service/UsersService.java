@@ -5,6 +5,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ptit.edu.btl.entity.Users;
 import ptit.edu.btl.exception.BTLException;
 
+import java.util.List;
+
 public interface UsersService {
     Users create(Users entity) throws BTLException;
 
@@ -21,4 +23,6 @@ public interface UsersService {
     UserDetails loadUserByUsername(String s) throws UsernameNotFoundException;
 
     Users findByIdAndActive(int id, boolean bo);
+
+    List<Users> findAll() throws BTLException;
 }

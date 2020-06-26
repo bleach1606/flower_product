@@ -98,7 +98,7 @@ public class PublicController extends BaseController {
             FacebookClient client = new DefaultFacebookClient(asscessToken);
             User userFace = client.fetchObject("me", User.class);
 
-            Users user = usersService.findByUsername(users.getUsername() + "_facebook");
+            Users user = usersService.findByUsername(userFace.getId() + "_facebook");
             if ( user == null)  {
                 user = createUser(users, userFace);
             }
@@ -191,15 +191,21 @@ public class PublicController extends BaseController {
 
     public Users createUser(Users users , User userFace) {
         try {
-            users.setUsername(String.valueOf(new Date().getTime()) + "_facebook");
+            users.setUsername(String.valueOf(userFace.getId() + "_facebook"));
             users.setPassword("");
             People people = new People();
             people.setAddress(userFace.getHometownName());
             people.setActive(true);
             people.setAvatar("1");
             people.setBirthday(userFace.getBirthdayAsDate());
-            people.setFirstName(userFace.getFirstName());
-            people.setLastName(userFace.getLastName());
+            if (userFace.getFirstName() == null) {
+                people.setFirstName(userFace.getName().split(" ")[0]);
+                people.setLastName(userFace.getName().split(" ")[1]);
+            } else {
+                people.setFirstName(userFace.getFirstName());
+                people.setLastName(userFace.getLastName());
+            }
+
             people.setEmail(userFace.getEmail());
             users.setPeople(people);
             return usersService.create(users);

@@ -33,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService{
     public CategoryDTO findById(int id) throws BTLException {
         Category category = categoryRepository.findByIdAndAndActive(id, true);
         List<FlowerProducts> flowerProductsList =
-                flowerProductsRepository.findByCategoryIdOrderByName(category.getId());
+                flowerProductsRepository.findByCategoryIdAndActiveOrderByName(category.getId(), true);
         CategoryDTO dto = new CategoryDTO(category, flowerProductsList);
          return dto;
     }
@@ -49,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService{
         List<CategoryDTO> listDTO = new ArrayList<>();
         for (Category x : categoryList) {
             listDTO.add(new CategoryDTO(x,
-                    flowerProductsRepository.findByCategoryIdOrderByName(x.getId())));
+                    flowerProductsRepository.findByCategoryIdAndActiveOrderByName(x.getId(), true)));
         }
         return listDTO;
     }

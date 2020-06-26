@@ -76,5 +76,15 @@ public class UsersController extends BaseController {
         }
     }
 
-
+    @GetMapping("")
+    ResponseEntity<ResponseJson> getAll() throws Exception {
+        try {
+            return createSuccessResponse(usersService.findAll(), HttpStatus.OK);
+        } catch (Exception ex) {
+            ResponseJson responseJson = new ResponseJson();
+            responseJson.setSuccess(false);
+            responseJson.setMessage(ex.getMessage());
+            return createErrorResponse(ex.getMessage(), HttpStatus.valueOf(400));
+        }
+    }
 }

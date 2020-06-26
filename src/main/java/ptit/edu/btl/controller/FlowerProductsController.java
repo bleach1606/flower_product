@@ -74,10 +74,10 @@ public class FlowerProductsController extends BaseController {
         }
     }
 
-    @PostMapping("find-by-category")
-    ResponseEntity<ResponseJson> findByCategory(@RequestBody Category entity) throws Exception {
+    @GetMapping("find-by-category/{id}")
+    ResponseEntity<ResponseJson> findByCategory(@PathVariable("id") int id) throws Exception {
         try {
-            return createSuccessResponse(productsRepository.findByCategoryIdOrderByName(entity.getId()), HttpStatus.OK);
+            return createSuccessResponse(productsRepository.findByCategoryIdAndActiveOrderByName(id, true), HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();
             responseJson.setSuccess(false);

@@ -16,6 +16,7 @@ import ptit.edu.btl.repository.UsersRepository;
 import ptit.edu.btl.session.CustomUserDetails;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 
 @Service
@@ -98,6 +99,11 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
     @Override
     public Users findByIdAndActive(int id, boolean bo) {
         return usersRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Users> findAll() throws BTLException {
+        return usersRepository.findByActive(true);
     }
 
     @Transactional

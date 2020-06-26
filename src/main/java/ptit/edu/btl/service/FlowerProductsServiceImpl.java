@@ -44,7 +44,13 @@ public class FlowerProductsServiceImpl implements FlowerProductsService {
 
     @Override
     public FlowerProducts update(FlowerProducts entity) throws BTLException {
-        return flowerProductsRepository.save(entity);
+        FlowerProducts products = flowerProductsRepository.findById(entity.getId()).orElse(null);
+        products.setName(entity.getName());
+        products.setActive(entity.getActive());
+        products.setAvatar(entity.getAvatar());
+        products.setDescription(entity.getDescription());
+        products.setPrice(entity.getPrice());
+        return flowerProductsRepository.save(products);
     }
 
     @Override
