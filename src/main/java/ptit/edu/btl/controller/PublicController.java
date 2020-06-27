@@ -21,6 +21,7 @@ import ptit.edu.btl.entity.Users;
 import ptit.edu.btl.exception.BTLException;
 import ptit.edu.btl.jwt.JwtTokenProvider;
 import ptit.edu.btl.repository.UsersRepository;
+import ptit.edu.btl.service.EmailService;
 import ptit.edu.btl.service.NotificationService;
 import ptit.edu.btl.service.UsersService;
 import ptit.edu.btl.session.CustomUserDetails;
@@ -62,6 +63,9 @@ public class PublicController extends BaseController {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    EmailService emailService;
 
     @PostMapping("/login")
     ResponseEntity<ResponseJson> login(@RequestBody Users users) throws Exception{
@@ -136,6 +140,9 @@ public class PublicController extends BaseController {
             notification.setUsers(users);
             notification.setAvatar("1");
             notificationService.create(notification);
+            emailService.sendMail(users.getPeople().getEmail(), "Craete user",
+                    "<h1> CAMELIA Thông báo </h1>" +
+                            "<h3>Tạo tài khoản thành công<h3>");
             return createSuccessResponse(users, HttpStatus.OK);
         } catch (Exception ex) {
             ResponseJson responseJson = new ResponseJson();

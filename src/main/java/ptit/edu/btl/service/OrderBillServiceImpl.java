@@ -85,12 +85,21 @@ public class OrderBillServiceImpl implements OrderBillService {
         }
 
 
-//        if (entity.getStatus() == Constant.OrderStatus.CONFIRM.getId()) {
-//            emailService.sendMail(
-//                    entity.getUsers().getPeople().getEmail(),
-//                    "Thông báo: ",
-//                    "Bạn đặt hàng thành công, gói hàng đã được giao đến vận chuyển.");
-//        }
+        if (entity.getStatus() == Constant.OrderStatus.CONFIRM.getId()) {
+            emailService.sendMail(
+                    entity.getUsers().getPeople().getEmail(),
+                    "Thông báo: ",
+                    "<h1> CAMELIA Thông báo </h1>" +
+                            "<h3> Bạn đặt hàng thành công, gói hàng đã được giao đến vận chuyển. </h3>" +
+                            "");
+        }
+        if (entity.getStatus() == Constant.OrderStatus.DONE.getId()) {
+            emailService.sendMail(
+                    entity.getUsers().getPeople().getEmail(),
+                    "Thông báo: ",
+                    "<h1> CAMELIA Thông báo </h1>" +
+                            "<h3>Giao dịch hoàn tất.</h3>");
+        }
         seenNotification(entity.getStatus(), entity.getUsers());
         seenFCM(entity.getStatus(), entity.getUsers());
         return orderBillRepository.save(entity);
