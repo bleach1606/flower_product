@@ -2,6 +2,7 @@ package ptit.edu.btl.controller;
 
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
+import com.restfb.Parameter;
 import com.restfb.types.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -93,14 +94,16 @@ public class PublicController extends BaseController {
     @PostMapping("/login-access")
     ResponseEntity<ResponseJson> loginFace(@RequestBody Users users) throws Exception{
         try {
-            String url = "https://graph.facebook.com";
+//            String url = "https://graph.facebook.com";
+
             String asscessToken = users.getAccessToken();
             FacebookClient client = new DefaultFacebookClient(asscessToken);
-            User userFace = client.fetchObject("me", User.class);
-
+            User userFace = client.fetchObject("me", User.class,
+            Parameter.with("fields",
+                    "id, name, email, first_name, last_name, birthday, hometown"));
             Users user = usersService.findByUsername(userFace.getId() + "_facebook");
             if ( user == null)  {
-                user = createUser(users, userFace);
+                user = createUser(users, userFace); 
             }
             // Xác thực từ username và password.
             Authentication authentication = authenticationManager.authenticate(
@@ -181,7 +184,7 @@ public class PublicController extends BaseController {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        String contentType = "image/jpeg";
+        String contentType = "image/jpegi";
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(MediaType.IMAGE_JPEG_VALUE))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""

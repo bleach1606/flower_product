@@ -26,6 +26,7 @@ public class CategoryDTO {
         this.name = category.getName();
         this.avatar = category.getAvatar();
         this.active = category.getActive();
+        this.type = category.getType();
         this.flowerProductsList = flowerProductsList;
         this.type = category.getType();
     }
