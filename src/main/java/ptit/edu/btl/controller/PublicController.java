@@ -157,19 +157,26 @@ public class PublicController extends BaseController {
 
     @PostMapping("/upload")
     public ResponseEntity uploadToLocalFileSystem(@RequestParam("file") MultipartFile file) {
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        Path path = Paths.get( "images/" + fileName);
         try {
-            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/public/download/")
-                .path(fileName)
-                .toUriString();
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            Path path = Paths.get( "images/" + fileName);
+            try {
+                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/public/download/")
+                    .path(fileName)
+                    .toUriString();
 //        String link = "http://192.168.1.18:8080/public/download/" + fileName;
-        return ResponseEntity.ok(fileDownloadUri);
+            return createSuccessResponse(fileName, HttpStatus.OK);
+        } catch (Exception ex) {
+            ResponseJson responseJson = new ResponseJson();
+            responseJson.setSuccess(false);
+            responseJson.setMessage(ex.getMessage());
+            return createErrorResponse(ex.getMessage(), HttpStatus.resolve(403));
+        }
     }
 
     @PostMapping("/multi-upload")
@@ -184,6 +191,9 @@ public class PublicController extends BaseController {
     @GetMapping("/download/{fileName:.+}")
     public ResponseEntity downloadFileFromLocal(@PathVariable String fileName) throws IOException {
 
+        if (!fileName.contains(".png") && !fileName.contains(".jpg") && !fileName.contains(".jpeg")) {
+            fileName += ".png";
+        }
         Path path = Paths.get("images/" + fileName);
         Resource resource = null;
         try {

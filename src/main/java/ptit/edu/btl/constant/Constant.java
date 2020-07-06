@@ -96,7 +96,7 @@ public class Constant {
         PACKING(4, "Đơn hàng đang được đóng gói"),
         SHIPPING(5, "Đơn hàng đang được giao"),
         RECEIVED(6, "Đơn hàng đã hoàn thành"),
-        CANCEL(7, "Hủy đơn hàng"),
+        CANCEL(7, "Yêu cầu hủy"),
         FAILED(8, "Đơn hàng bị huỷ"),
         END(9, "END GAME !!!"),
         DONE(10, "Hoàn thành");

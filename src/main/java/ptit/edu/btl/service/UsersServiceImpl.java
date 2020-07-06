@@ -71,7 +71,10 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
     @Override
     public Users update(Users entity) {
         //todo kiểm tra sửa đổi okk thì mới được update
-        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        Users users = usersRepository.findById(entity.getId()).orElse(null);
+        if (!entity.getPassword().trim().equals(users.getPassword().trim())) {
+            entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        }
         entity.setPeople(peopleRepository.save(entity.getPeople()));
         return usersRepository.save(entity);
     }

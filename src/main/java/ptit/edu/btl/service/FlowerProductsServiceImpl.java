@@ -39,7 +39,7 @@ public class FlowerProductsServiceImpl implements FlowerProductsService {
     //todo search by key
     @Override
     public List<FlowerProducts> findByName(String key) throws BTLException {
-        return flowerProductsRepository.findByNameIsLikeOrderByName("%" + key + "%");
+        return flowerProductsRepository.findByNameIsLikeAndActiveOrderByName("%" + key + "%", true);
     }
 
     @Override
